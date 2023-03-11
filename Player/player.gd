@@ -17,7 +17,9 @@ class_name Player
 @onready var sprite := $Sprite2D
 @onready var remoteTransform2D := $RemoteTransform2D
 
-@export var jetpack_enabled = false
+var jetpack_enabled = false
+
+#var stats: Character : set = set_stats, get = _get_stats
 
 enum states { RUN, JUMP, FALL, IDLE, THRUST }
 
@@ -32,7 +34,11 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 func _ready():
 	debug_enabled(debug_enabled_status)
 	
+func set_stats():
+	pass
 	
+func _get_stats():
+	pass
 
 func _physics_process(delta):
 	var input = Vector2.ZERO

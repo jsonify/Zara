@@ -39,3 +39,7 @@ func _on_power_up_platform_activated():
 	var platform_position = get_node("PowerUpPlatform/PlatformWarpAnimatedSprite")
 	jetpack.position = get_node("PowerUpPlatform").position
 	jetpack.position.y -= jetpack_offset
+
+
+func _on_button_pressed():
+	pass # Replace with function body.

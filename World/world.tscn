@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://g3itkm8jgr5w"]
+[gd_scene load_steps=11 format=3 uid="uid://g3itkm8jgr5w"]
 
 [ext_resource type="Script" path="res://World/world.gd" id="1_h4g4u"]
 [ext_resource type="PackedScene" path="res://tile_map.tscn" id="2_bugb8"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://b1ogjxlwufttw" path="res://PowerUps/power_up.tscn" id="7_b41e7"]
 [ext_resource type="PackedScene" uid="uid://bv3jkbkss4tat" path="res://PowerUps/power_up_platform.tscn" id="8_gh0kn"]
 [ext_resource type="Script" path="res://World/save_and _load.gd" id="9_wg3rv"]
+[ext_resource type="Script" path="res://World/game_saver.gd" id="10_wdsrb"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_h4g4u")
@@ -50,3 +51,20 @@ position = Vector2(106, -16)
 
 [node name="Node" type="Node" parent="."]
 script = ExtResource("9_wg3rv")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 35.0
+offset_top = -76.0
+offset_right = 91.0
+offset_bottom = -45.0
+text = "SAVE"
+script = ExtResource("10_wdsrb")
+
+[connection signal="pressed" from="Control/Button" to="." method="_on_button_pressed"]
