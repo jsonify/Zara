@@ -1,4 +1,4 @@
-extends "state.gd"
+extends UnifiedState
 
 @export var dash_duration := 0.2
 
@@ -8,25 +8,26 @@ var dash_direction := Vector2.ZERO
 var dash_speed := 240
 var dashing := false
 
-func update(_delta):
+func state_process(_delta) -> UnifiedState:
 	if !dashing:
-		return STATES.FALL
+		return get_parent().get_node("FALL") as UnifiedState
 	return null
 
-func enter_state():
-	Player.can_dash = false
+func on_enter():
+	var player := character as Player
+	player.can_dash = false
 	dashing = true
 	dash_duration_timer.start(dash_duration)
-	if Player.movement_input != Vector2.ZERO:
-		dash_direction = Player.movement_input
-	else:
-		dash_direction = Player.last_direction
-		
-	Player.velocity = dash_direction.normalized() * dash_speed
 
-func exit_state():
+	if player.movement_input != Vector2.ZERO:
+		dash_direction = player.movement_input
+	else:
+		dash_direction = player.last_direction
+
+	player.velocity = dash_direction.normalized() * dash_speed
+
+func on_exit():
 	dashing = false
-	
 
 func _on_timer_timeout():
 	dashing = false

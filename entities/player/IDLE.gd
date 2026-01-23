@@ -1,27 +1,33 @@
-extends "state.gd"
+extends UnifiedState
 
-@onready var animation_player = $"../../AnimationPlayer"
-
-func update(delta):
+func state_process(delta) -> UnifiedState:
 	animation_player.play("idle")
-	Player.gravity(delta)
-	if Player.movement_input.x != 0:
-		return STATES.MOVE
+	_apply_gravity(delta)
 
-	if Player.jump_input_actuation:
-		return STATES.JUMP
+	var player := character as Player
 
-	if Player.velocity.y >0:
-		return STATES.FALL
-	
-	if Player.dash_input and Player.can_dash:
-		return STATES.DASH
-		
-	if Player.thrust_input and Player.can_thrust and Player.fuel_level > 0.01:
-		return STATES.THRUST
-	
+	if player.movement_input.x != 0:
+		return get_parent().get_node("MOVE") as UnifiedState
+
+	if player.jump_input_actuation:
+		return get_parent().get_node("JUMP") as UnifiedState
+
+	if player.velocity.y > 0:
+		return get_parent().get_node("FALL") as UnifiedState
+
+	if player.dash_input and player.can_dash:
+		return get_parent().get_node("DASH") as UnifiedState
+
+	if player.thrust_input and player.can_thrust and player.fuel_level > 0.01:
+		return get_parent().get_node("THRUST") as UnifiedState
+
 	return null
 
+func on_enter():
+	var player := character as Player
+	player.can_dash = true
 
-func enter_state():
-	Player.can_dash = true
+func _apply_gravity(delta):
+	var player := character as Player
+	if not player.is_on_floor():
+		player.velocity.y += player.gravity_value * delta

@@ -1,7 +1,7 @@
 [gd_scene load_steps=29 format=3 uid="uid://cd17ai7s7md7x"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_kq41b"]
-[ext_resource type="Script" path="res://entities/player/STATES.gd" id="4_2d2iv"]
+[ext_resource type="Script" path="res://entities/base/UnifiedStateMachine.gd" id="4_2d2iv"]
 [ext_resource type="Texture2D" uid="uid://bv23yag8dv1hk" path="res://assets/player/player_base.png" id="5_a7lp5"]
 [ext_resource type="PackedScene" uid="uid://bpcroqf2bq2sc" path="res://entities/player/IDLE.tscn" id="5_b5b8c"]
 [ext_resource type="PackedScene" uid="uid://df11hbhd1dcn1" path="res://entities/player/JUMP.tscn" id="6_lvahp"]
@@ -198,23 +198,26 @@ offset_bottom = -15.0
 theme_override_font_sizes/font_size = 10
 text = "STATE"
 
-[node name="STATES" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="."]
 script = ExtResource("4_2d2iv")
+character_path = NodePath("..")
+animation_player_path = NodePath("../AnimationPlayer")
+initial_state_path = NodePath("IDLE")
 
-[node name="IDLE" parent="STATES" instance=ExtResource("5_b5b8c")]
+[node name="IDLE" parent="StateMachine" instance=ExtResource("5_b5b8c")]
 
-[node name="JUMP" parent="STATES" instance=ExtResource("6_lvahp")]
+[node name="JUMP" parent="StateMachine" instance=ExtResource("6_lvahp")]
 
-[node name="MOVE" parent="STATES" instance=ExtResource("7_g2nyi")]
+[node name="MOVE" parent="StateMachine" instance=ExtResource("7_g2nyi")]
 
-[node name="FALL" parent="STATES" instance=ExtResource("8_2ipld")]
+[node name="FALL" parent="StateMachine" instance=ExtResource("8_2ipld")]
 coyote_duration = 0.2
 
-[node name="DASH" parent="STATES" instance=ExtResource("9_4on0l")]
+[node name="DASH" parent="StateMachine" instance=ExtResource("9_4on0l")]
 
-[node name="SLIDE" parent="STATES" instance=ExtResource("10_f4ely")]
+[node name="SLIDE" parent="StateMachine" instance=ExtResource("10_f4ely")]
 
-[node name="THRUST" parent="STATES" instance=ExtResource("10_wd6b7")]
+[node name="THRUST" parent="StateMachine" instance=ExtResource("10_wd6b7")]
 
 [node name="Raycasts" type="Node2D" parent="."]
 

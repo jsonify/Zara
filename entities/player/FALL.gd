@@ -1,42 +1,55 @@
-extends "state.gd"
+extends UnifiedState
 
-# TODO: eventually turn this into a signal
-@onready var animation_player = $"../../AnimationPlayer"
-
-@onready var CoyoteTimer = $CoyoteTimer
+@onready var coyote_timer = $CoyoteTimer
 
 @export var coyote_duration := 0.2
 
 var can_jump := true
 
-func update(delta):
+func state_process(delta) -> UnifiedState:
 	animation_player.play("fall")
-	Player.gravity(delta)
+	_apply_gravity(delta)
 	player_movement()
-	if Player.is_on_floor():
-		return STATES.IDLE
-		
-	if Player.dash_input and Player.can_dash:
-		return STATES.DASH
-			
-	if Player.get_next_to_wall() != null and Player.can_slide:
-		return STATES.SLIDE
-	
-	if Player.jump_input_actuation and can_jump:
-		return STATES.JUMP
-	
-	if Player.thrust_input and Player.can_thrust and Player.fuel_level > 0.01:
-		return STATES.THRUST
-		
-	return null
-	
 
-func enter_state():
-	if Player.prev_state == STATES.IDLE or Player.prev_state == STATES.MOVE or Player.prev_state == STATES.SLIDE:
+	var player := character as Player
+	var state_machine := get_parent() as UnifiedStateMachine
+
+	if player.is_on_floor():
+		return get_parent().get_node("IDLE") as UnifiedState
+
+	if player.dash_input and player.can_dash:
+		return get_parent().get_node("DASH") as UnifiedState
+
+	if player.get_next_to_wall() != null and player.can_slide:
+		return get_parent().get_node("SLIDE") as UnifiedState
+
+	if player.jump_input_actuation and can_jump:
+		return get_parent().get_node("JUMP") as UnifiedState
+
+	if player.thrust_input and player.can_thrust and player.fuel_level > 0.01:
+		return get_parent().get_node("THRUST") as UnifiedState
+
+	return null
+
+func on_enter():
+	var player := character as Player
+	var state_machine := get_parent() as UnifiedStateMachine
+
+	# Check if we can coyote jump based on previous state
+	var prev_state_name = ""
+	if state_machine.prev_state:
+		prev_state_name = state_machine.prev_state.name
+
+	if prev_state_name in ["IDLE", "MOVE", "SLIDE"]:
 		can_jump = true
-		CoyoteTimer.start(coyote_duration)
+		coyote_timer.start(coyote_duration)
 	else:
 		can_jump = false
 
 func _on_coyote_timer_timeout():
 	can_jump = false
+
+func _apply_gravity(delta):
+	var player := character as Player
+	if not player.is_on_floor():
+		player.velocity.y += player.gravity_value * delta
