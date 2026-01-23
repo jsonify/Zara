@@ -94,7 +94,7 @@ Binary file at `res://savegame.bin` containing JSON (HP, gold, fuel, abilities).
 - [x] Standardize naming conventions - renamed `playerHP` to `player_hp`, `Raycasts` to `raycasts`
 
 ### Architecture Improvements
-- [ ] Break up `world.tscn` into smaller instanced scenes - sub-scenes created (`world_background.tscn`, `world_environment.tscn`, `world_collectibles.tscn`, `world_powerups.tscn`, `world_enemies.tscn`) but migration requires Godot editor to preserve signal connections
+- [x] Break up `world.tscn` into smaller instanced scenes - migrated to use `world_background.tscn`, `world_environment.tscn`, `world_collectibles.tscn`, `world_powerups.tscn`, `world_enemies.tscn`; fixed signal connections in base scenes
 - [x] Unify player and enemy state machines - created `UnifiedState` and `UnifiedStateMachine` base classes in `entities/base/`
 - [x] Add player attack/combat states - added `ATTACK` (melee), `RANGED` (projectile), and `HIT` (damage reaction) states with projectile system
 
