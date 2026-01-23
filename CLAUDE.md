@@ -80,9 +80,9 @@ Binary file at `res://savegame.bin` containing JSON (HP, gold, fuel, abilities).
 ## TODO
 
 ### Code Cleanup
-- [ ] Consolidate player implementations - both `player.gd` and `hero.gd` exist, clarify which is active
-- [ ] Remove deprecated code in `environment/scratch/`
-- [ ] Standardize naming conventions (mix of camelCase and snake_case in some files)
+- [x] Consolidate player implementations - removed unused `hero.gd` and `hero.tscn`; `player.gd` is the active implementation
+- [x] Remove deprecated code in `environment/scratch/` - deleted scratch directory and test scenes
+- [x] Standardize naming conventions - renamed `playerHP` to `player_hp`, `Raycasts` to `raycasts`
 
 ### Architecture Improvements
 - [ ] Break up `world.tscn` (77KB) into smaller instanced scenes for better maintainability

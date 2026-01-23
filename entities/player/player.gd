@@ -40,7 +40,7 @@ var prev_state = null
 
 # nodes
 @onready var STATES = $STATES
-@onready var Raycasts = $Raycasts
+@onready var raycasts = $Raycasts
 @onready var screen_dimensions = Vector2(get_viewport().size)
 
 var sprite_frames
@@ -201,13 +201,13 @@ func set_direction_left() -> void:
 
 	
 func die():
-	if Game.playerHP <= 0:
+	if Game.player_hp <= 0:
 		queue_free()
 		get_tree().change_scene_to_file("res://main.tscn")
 
 
 func get_next_to_wall():
-	for raycast in Raycasts.get_children():
+	for raycast in raycasts.get_children():
 		raycast.force_raycast_update()
 		if raycast.is_colliding():
 			if raycast.target_position.x > 0:

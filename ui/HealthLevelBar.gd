@@ -2,10 +2,10 @@ extends TextureProgressBar
 
 
 func _ready():
-	value = Game.playerHP
+	value = Game.player_hp
 
 
 func _process(_delta):
-	if Game.playerHP > 0:
-		value = Game.playerHP
+	if Game.player_hp > 0:
+		value = Game.player_hp
 
