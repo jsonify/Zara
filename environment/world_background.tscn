@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnb5q2r8h4wvk"]
+
+[ext_resource type="Script" path="res://ui/bg.gd" id="1_bg"]
+[ext_resource type="Texture2D" uid="uid://b1g3hq8gjfyoq" path="res://assets/world/jsonify_parallax_background_layers_style_or_and_the_blind_cave__7d41c7aa-3045-4026-bb34-14b447031fbd.png" id="2_cavebg"]
+
+[node name="WorldBackground" type="ParallaxBackground"]
+visible = false
+script = ExtResource("1_bg")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_mirroring = Vector2(1152, 0)
+
+[node name="Cave-bg" type="Sprite2D" parent="ParallaxLayer"]
+modulate = Color(0.478431, 0.478431, 0.478431, 1)
+position = Vector2(577.333, 334.5)
+scale = Vector2(0.692708, 0.692708)
+texture = ExtResource("2_cavebg")

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cp4nx7m2q5rpk"]
+
+[ext_resource type="PackedScene" uid="uid://bffqtugajlh5e" path="res://platforms/powerup_platform.tscn" id="1_platform"]
+[ext_resource type="PackedScene" uid="uid://dlg0jpb28w8tl" path="res://collectibles/powerup/powerup_station_jetpack.tscn" id="2_jetpack"]
+
+[node name="WorldPowerups" type="Node2D"]
+
+[node name="PowerupPlatform" parent="." instance=ExtResource("1_platform")]
+position = Vector2(371, 618)
+
+[node name="PowerupStationJetpack" parent="." instance=ExtResource("2_jetpack")]
+position = Vector2(340, 617)
+collision_layer = 0
+collision_mask = 2
