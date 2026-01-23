@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dm8qr5n2x4vpk"]
+
+[ext_resource type="PackedScene" uid="uid://dj7m1vxa1f547" path="res://entities/enemies/flower/flowery.tscn" id="1_flowery"]
+
+[node name="WorldEnemies" type="Node2D"]
+position = Vector2(423, -21)
+
+[node name="Flowery" parent="." instance=ExtResource("1_flowery")]
+position = Vector2(-168, 252)

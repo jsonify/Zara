@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8nh4xq2py5rm"]
+
+[ext_resource type="Script" path="res://entities/player/HIT.gd" id="1_hit"]
+
+[node name="HIT" type="Node"]
+script = ExtResource("1_hit")
+hit_duration = 0.3
+invincibility_duration = 1.0
+knockback_speed = 150.0
+
+[node name="HitTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="InvincibilityTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="HitTimer" to="." method="_on_hit_timer_timeout"]
+[connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]

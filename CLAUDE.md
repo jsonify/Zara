@@ -23,9 +23,15 @@ Four singletons manage game-wide state (defined in project.godot):
 - **Events** (`global/events.gd`): Game event signals (thrust, jetpack, etc.)
 - **Utils** (`global/utils.gd`): Save/load game data + UI utilities
 
-### State Machine Pattern
+### Unified State Machine Pattern
 
-**Player states** (`entities/player/`): States return next state from `update(delta)`. Flow: `IDLE` ↔ `MOVE` ↔ `FALL` ↔ `JUMP`, with `DASH`/`SLIDE`/`THRUST` as special states.
+Both player and enemy use a unified state machine pattern (`entities/base/`):
+
+- **UnifiedState** (`entities/base/UnifiedState.gd`): Base state class with `state_process()`, `on_enter()`, `on_exit()`. Supports both return-value and `next_state` property transitions.
+- **UnifiedStateMachine** (`entities/base/UnifiedStateMachine.gd`): Manages state transitions, handles both transition patterns.
+- **State** (`entities/State.gd`): Backward-compatible alias extending UnifiedState for enemies.
+
+**Player states** (`entities/player/`): Flow: `IDLE` ↔ `MOVE` ↔ `FALL` ↔ `JUMP`, with `DASH`/`SLIDE`/`THRUST`/`ATTACK`/`RANGED`/`HIT`/`DEATH` as special states.
 
 **Enemy states** (`entities/CharacterStateMachine.gd`): AnimationTree-based transitions with `on_enter()`/`on_exit()` callbacks. Used by flower enemy and extensible for new enemies.
 
@@ -63,31 +69,35 @@ Four singletons manage game-wide state (defined in project.godot):
 - `dash`: Z
 - `climb`/`slide`: X/B
 - `thrust`: Right Mouse Button
+- `attack`: J/Left Mouse Button (melee)
+- `ranged`: K (projectile)
+- `pause`: Escape (pause menu)
 - `save`: Cmd+J
 
 ## Save System
 
-Binary file at `res://savegame.bin` containing JSON (HP, gold, fuel, abilities). See `Utils.save_game()` and `Utils.load_game()`.
+Binary file at `user://savegame.bin` containing JSON (HP, gold, fuel, abilities). See `Utils.saveGame()` and `Utils.loadGame()`.
 
 ## Conventions
 
 - Heavy signal usage for decoupled communication
 - `@onready` for node reference caching
 - `@export` variables for inspector-tunable parameters
-- State classes inherit from `state.gd` base
+- State classes inherit from `UnifiedState` base (or `State` for backward compatibility)
 - Enemy stats defined as resources (`.tres` files in `resources/`)
+- World scene uses instanced sub-scenes for organization (`environment/world_*.tscn`, `collectibles/world_*.tscn`, etc.)
 
 ## TODO
 
 ### Code Cleanup
-- [ ] Consolidate player implementations - both `player.gd` and `hero.gd` exist, clarify which is active
-- [ ] Remove deprecated code in `environment/scratch/`
-- [ ] Standardize naming conventions (mix of camelCase and snake_case in some files)
+- [x] Consolidate player implementations - removed unused `hero.gd` and `hero.tscn`; `player.gd` is the active implementation
+- [x] Remove deprecated code in `environment/scratch/` - deleted scratch directory and test scenes
+- [x] Standardize naming conventions - renamed `playerHP` to `player_hp`, `Raycasts` to `raycasts`
 
 ### Architecture Improvements
-- [ ] Break up `world.tscn` (77KB) into smaller instanced scenes for better maintainability
-- [ ] Unify player and enemy state machines to use same base pattern
-- [ ] Add player attack/combat states
+- [x] Break up `world.tscn` into smaller instanced scenes - migrated to use `world_background.tscn`, `world_environment.tscn`, `world_collectibles.tscn`, `world_powerups.tscn`, `world_enemies.tscn`; fixed signal connections in base scenes
+- [x] Unify player and enemy state machines - created `UnifiedState` and `UnifiedStateMachine` base classes in `entities/base/`
+- [x] Add player attack/combat states - added `ATTACK` (melee), `RANGED` (projectile), and `HIT` (damage reaction) states with projectile system
 
 ### Features to Expand
 - [ ] Expand dialogue system - currently only `powerup_stations.json` exists
@@ -95,6 +105,6 @@ Binary file at `res://savegame.bin` containing JSON (HP, gold, fuel, abilities).
 - [ ] Add more enemy types using the `CharacterStateMachine` pattern
 
 ### Polish
-- [ ] Add death/respawn system
-- [ ] Add pause menu
-- [ ] Move save file to user:// instead of res:// for exported builds
+- [x] Add death/respawn system - DEATH state with fade animation, respawn at spawn point with HP reset
+- [x] Add pause menu - Escape key toggles pause with Resume/Main Menu/Quit options
+- [x] Move save file to user:// instead of res:// for exported builds

@@ -1,21 +1,34 @@
-extends "state.gd"
+extends UnifiedState
 
-# TODO: eventually turn this into a signal
-@onready var animation_player = $"../../AnimationPlayer"
-
-func update(delta):
+func state_process(delta) -> UnifiedState:
 	animation_player.play("jump")
-	Player.gravity(delta)
+	_apply_gravity(delta)
 	player_movement()
-	if Player.velocity.y > 0:
-		return STATES.FALL
-		
-	if Player.dash_input and Player.can_dash:
-		return STATES.DASH
 
-	if Player.get_next_to_wall() != null and Player.can_slide:
-		return STATES.SLIDE
-	
+	var player := character as Player
+
+	if player.velocity.y > 0:
+		return get_parent().get_node("FALL") as UnifiedState
+
+	if player.dash_input and player.can_dash:
+		return get_parent().get_node("DASH") as UnifiedState
+
+	if player.get_next_to_wall() != null and player.can_slide:
+		return get_parent().get_node("SLIDE") as UnifiedState
+
+	if player.attack_input:
+		return get_parent().get_node("ATTACK") as UnifiedState
+
+	if player.ranged_input:
+		return get_parent().get_node("RANGED") as UnifiedState
+
 	return null
-func enter_state():
-	Player.velocity.y = Player.JUMP_VELOCITY
+
+func on_enter():
+	var player := character as Player
+	player.velocity.y = player.JUMP_VELOCITY
+
+func _apply_gravity(delta):
+	var player := character as Player
+	if not player.is_on_floor():
+		player.velocity.y += player.gravity_value * delta

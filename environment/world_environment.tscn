@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2g5n8m3x7rpq"]
+
+[ext_resource type="PackedScene" uid="uid://cvyhpndm6dscx" path="res://environment/cave_entrance.tscn" id="1_cave"]
+[ext_resource type="PackedScene" uid="uid://chtidesj1hv6b" path="res://environment/jetpack_sign.tscn" id="2_jetpack"]
+[ext_resource type="PackedScene" uid="uid://dy003js173hqq" path="res://environment/direction_sign.tscn" id="3_direction"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sign1"]
+size = Vector2(113, 73)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sign2"]
+size = Vector2(195, 70)
+
+[node name="WorldEnvironment" type="Node2D"]
+
+[node name="CaveEntrance" parent="." instance=ExtResource("1_cave")]
+position = Vector2(52, 186)
+collision_layer = 0
+collision_mask = 2
+
+[node name="ActionSigns" type="Node2D" parent="."]
+
+[node name="JetpackSign" parent="ActionSigns" instance=ExtResource("2_jetpack")]
+position = Vector2(405, 561)
+
+[node name="CollisionShape2D" parent="ActionSigns/JetpackSign" index="1"]
+position = Vector2(-24.5, 14.5)
+shape = SubResource("RectangleShape2D_sign1")
+
+[node name="DirectionSign" parent="ActionSigns" instance=ExtResource("3_direction")]
+position = Vector2(-362, 129)
+
+[node name="Sprite2D" parent="ActionSigns/DirectionSign" index="0"]
+light_mask = 0
+visibility_layer = 2
+position = Vector2(0, 14)
+
+[node name="CollisionShape2D" parent="ActionSigns/DirectionSign" index="1"]
+position = Vector2(-22.5, 36)
+shape = SubResource("RectangleShape2D_sign2")
+
+[editable path="ActionSigns/JetpackSign"]
+[editable path="ActionSigns/DirectionSign"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dj7m1vxa1f547"]
+[gd_scene load_steps=21 format=3 uid="uid://dj7m1vxa1f547"]
 
 [ext_resource type="Texture2D" uid="uid://c5larvhgm1wdx" path="res://assets/enemies/flower/flower-move-sheet.png" id="1_4bapy"]
 [ext_resource type="Script" path="res://entities/enemies/flower/flowery.gd" id="1_i857g"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://entities/State.gd" id="5_kwwss"]
 [ext_resource type="Script" path="res://entities/StateDebugLabel.gd" id="6_bfxsf"]
 [ext_resource type="Script" path="res://entities/HitState.gd" id="6_ma1m2"]
+[ext_resource type="PackedScene" uid="uid://cenemy8hitbox5" path="res://overlaps/enemy_hitbox.tscn" id="9_ehitbox"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nprck"]
 size = Vector2(14, 11)
@@ -155,6 +156,9 @@ autoplay = "move"
 libraries = {
 "": SubResource("AnimationLibrary_rrylx")
 }
+
+[node name="EnemyHitBox" parent="." instance=ExtResource("9_ehitbox")]
+position = Vector2(0, -5)
 
 [node name="Damageable" type="Node" parent="."]
 script = ExtResource("2_tk4xv")
