@@ -12,7 +12,6 @@ func state_process(delta) -> UnifiedState:
 	player_movement()
 
 	var player := character as Player
-	var state_machine := get_parent() as UnifiedStateMachine
 
 	if player.is_on_floor():
 		return get_parent().get_node("IDLE") as UnifiedState
@@ -29,16 +28,21 @@ func state_process(delta) -> UnifiedState:
 	if player.thrust_input and player.can_thrust and player.fuel_level > 0.01:
 		return get_parent().get_node("THRUST") as UnifiedState
 
+	if player.attack_input:
+		return get_parent().get_node("ATTACK") as UnifiedState
+
+	if player.ranged_input:
+		return get_parent().get_node("RANGED") as UnifiedState
+
 	return null
 
 func on_enter():
-	var player := character as Player
-	var state_machine := get_parent() as UnifiedStateMachine
+	var sm := get_parent() as UnifiedStateMachine
 
 	# Check if we can coyote jump based on previous state
 	var prev_state_name = ""
-	if state_machine.prev_state:
-		prev_state_name = state_machine.prev_state.name
+	if sm.prev_state:
+		prev_state_name = sm.prev_state.name
 
 	if prev_state_name in ["IDLE", "MOVE", "SLIDE"]:
 		can_jump = true

@@ -22,6 +22,12 @@ func state_process(delta) -> UnifiedState:
 	if player.thrust_input and player.can_thrust and player.fuel_level > 0.01:
 		return get_parent().get_node("THRUST") as UnifiedState
 
+	if player.attack_input:
+		return get_parent().get_node("ATTACK") as UnifiedState
+
+	if player.ranged_input:
+		return get_parent().get_node("RANGED") as UnifiedState
+
 	return null
 
 func on_enter():

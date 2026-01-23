@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqv4n7m8h2xpk"]
+
+[ext_resource type="Script" path="res://entities/player/RANGED.gd" id="1_ranged"]
+[ext_resource type="PackedScene" uid="uid://d3p2qr8x5hs7n" path="res://entities/projectiles/projectile.tscn" id="2_projectile"]
+
+[node name="RANGED" type="Node"]
+script = ExtResource("1_ranged")
+ranged_cooldown = 0.5
+projectile_scene = ExtResource("2_projectile")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(8, -5)
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]

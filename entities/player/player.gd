@@ -33,6 +33,8 @@ var jump_input_actuation := false
 var climb_input := false
 var dash_input := false
 var thrust_input := false
+var attack_input := false
+var ranged_input := false
 
 var sprite_frames
 var jetpack_enabled
@@ -43,12 +45,17 @@ var player_position_uv : Vector2
 
 @onready var raycasts = $Raycasts
 @onready var screen_dimensions = Vector2(get_viewport().size)
+@onready var hurt_box = $HurtBox
 
 func _ready():
 	Utils.saveGame()
 	Utils.loadGame()
 
 	jetpack_enabled = Game.jetpack
+
+	# Connect HurtBox to damage handling
+	if hurt_box:
+		hurt_box.take_damage.connect(_on_hurt_box_take_damage)
 
 func _physics_process(delta):
 	player_input()
@@ -128,6 +135,18 @@ func player_input():
 		thrust_input = false
 		Events.emit_signal("thrust_not_engaged")
 
+	# ATTACK
+	if Input.is_action_just_pressed("attack"):
+		attack_input = true
+	else:
+		attack_input = false
+
+	# RANGED
+	if Input.is_action_just_pressed("ranged"):
+		ranged_input = true
+	else:
+		ranged_input = false
+
 func has_fuel():
 	if Game.fuel_level < 0.01:
 		Game.fuel_level = 0.0
@@ -185,3 +204,9 @@ func _on_dialogue_player_set_player_active(active):
 	set_physics_process(active)
 	set_process(active)
 	set_process_input(active)
+
+func _on_hurt_box_take_damage(amount: int, knockback_direction: Vector2):
+	# Check if HIT state exists and player is not already invincible
+	var hit_state = state_machine.get_state("HIT")
+	if hit_state and not hit_state.is_invincible:
+		hit_state.take_hit(amount, knockback_direction)

@@ -10,6 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://yvm7bvrbk1a1" path="res://entities/player/DASH.tscn" id="9_4on0l"]
 [ext_resource type="PackedScene" uid="uid://00lswgptbh8u" path="res://entities/player/SLIDE.tscn" id="10_f4ely"]
 [ext_resource type="PackedScene" uid="uid://by3d1o11tq7s4" path="res://entities/player/THRUST.tscn" id="10_wd6b7"]
+[ext_resource type="PackedScene" uid="uid://cm4gxf7v8ys3q" path="res://entities/player/ATTACK.tscn" id="11_attack"]
+[ext_resource type="PackedScene" uid="uid://bqv4n7m8h2xpk" path="res://entities/player/RANGED.tscn" id="12_ranged"]
+[ext_resource type="PackedScene" uid="uid://c8nh4xq2py5rm" path="res://entities/player/HIT.tscn" id="13_hit"]
 [ext_resource type="Gradient" uid="uid://cpuhv63pldqxr" path="res://effects/thrust_gradient.tres" id="12_yuvj5"]
 [ext_resource type="Texture2D" uid="uid://cunvbcktlha0f" path="res://assets/effects/smoke.png" id="13_6xtef"]
 [ext_resource type="PackedScene" path="res://overlaps/hit_box.tscn" id="13_rn704"]
@@ -137,11 +140,45 @@ tracks/0/keys = {
 "values": [14, 15, 16, 17]
 }
 
+[sub_resource type="Animation" id="Animation_attack"]
+resource_name = "attack"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [13, 14, 13]
+}
+
+[sub_resource type="Animation" id="Animation_hit"]
+resource_name = "hit"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [13, 12]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ghees"]
 _data = {
 "RESET": SubResource("Animation_7f3m4"),
+"attack": SubResource("Animation_attack"),
 "dash": SubResource("Animation_454eh"),
 "fall": SubResource("Animation_y4hhc"),
+"hit": SubResource("Animation_hit"),
 "idle": SubResource("Animation_a6s5o"),
 "jump": SubResource("Animation_8rgsm"),
 "move": SubResource("Animation_lpcgg"),
@@ -219,6 +256,12 @@ coyote_duration = 0.2
 
 [node name="THRUST" parent="StateMachine" instance=ExtResource("10_wd6b7")]
 
+[node name="ATTACK" parent="StateMachine" instance=ExtResource("11_attack")]
+
+[node name="RANGED" parent="StateMachine" instance=ExtResource("12_ranged")]
+
+[node name="HIT" parent="StateMachine" instance=ExtResource("13_hit")]
+
 [node name="Raycasts" type="Node2D" parent="."]
 
 [node name="TopRight" type="RayCast2D" parent="Raycasts"]
@@ -258,5 +301,6 @@ position = Vector2(1, -5.25)
 shape = SubResource("RectangleShape2D_b8vyf")
 
 [connection signal="body_entered" from="HitBox" to="HitBox" method="_on_body_entered"]
+[connection signal="area_entered" from="HurtBox" to="HurtBox" method="_on_area_entered"]
 
 [editable path="HurtBox"]

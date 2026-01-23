@@ -16,6 +16,12 @@ func state_process(delta) -> UnifiedState:
 	if player.get_next_to_wall() != null and player.can_slide:
 		return get_parent().get_node("SLIDE") as UnifiedState
 
+	if player.attack_input:
+		return get_parent().get_node("ATTACK") as UnifiedState
+
+	if player.ranged_input:
+		return get_parent().get_node("RANGED") as UnifiedState
+
 	return null
 
 func on_enter():
