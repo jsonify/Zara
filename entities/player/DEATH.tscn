@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdeath5t8q2py"]
+
+[ext_resource type="Script" path="res://entities/player/DEATH.gd" id="1_death"]
+
+[node name="DEATH" type="Node"]
+script = ExtResource("1_death")
+death_duration = 1.0
+respawn_delay = 0.5
+
+[node name="DeathTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="RespawnTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
+[connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]

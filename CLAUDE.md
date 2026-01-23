@@ -31,7 +31,7 @@ Both player and enemy use a unified state machine pattern (`entities/base/`):
 - **UnifiedStateMachine** (`entities/base/UnifiedStateMachine.gd`): Manages state transitions, handles both transition patterns.
 - **State** (`entities/State.gd`): Backward-compatible alias extending UnifiedState for enemies.
 
-**Player states** (`entities/player/`): Flow: `IDLE` ↔ `MOVE` ↔ `FALL` ↔ `JUMP`, with `DASH`/`SLIDE`/`THRUST`/`ATTACK`/`RANGED`/`HIT` as special states.
+**Player states** (`entities/player/`): Flow: `IDLE` ↔ `MOVE` ↔ `FALL` ↔ `JUMP`, with `DASH`/`SLIDE`/`THRUST`/`ATTACK`/`RANGED`/`HIT`/`DEATH` as special states.
 
 **Enemy states** (`entities/CharacterStateMachine.gd`): AnimationTree-based transitions with `on_enter()`/`on_exit()` callbacks. Used by flower enemy and extensible for new enemies.
 
@@ -105,6 +105,6 @@ Binary file at `user://savegame.bin` containing JSON (HP, gold, fuel, abilities)
 - [ ] Add more enemy types using the `CharacterStateMachine` pattern
 
 ### Polish
-- [ ] Add death/respawn system
+- [x] Add death/respawn system - DEATH state with fade animation, respawn at spawn point with HP reset
 - [x] Add pause menu - Escape key toggles pause with Resume/Main Menu/Quit options
 - [x] Move save file to user:// instead of res:// for exported builds

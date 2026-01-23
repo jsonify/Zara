@@ -6,12 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://pjvytq36d4mj" path="res://assets/world/circle-fade.png" id="7_jqmhk"]
 [ext_resource type="PackedScene" uid="uid://cd17ai7s7md7x" path="res://entities/player/player.tscn" id="14_f7ltt"]
 [ext_resource type="PackedScene" uid="uid://c2agmia81gv6x" path="res://ui/health_changed_mananger.tscn" id="17_bb8s7"]
-[ext_resource type="PackedScene" path="res://environment/world_background.tscn" id="18_wbg"]
-[ext_resource type="PackedScene" path="res://environment/world_environment.tscn" id="19_wenv"]
-[ext_resource type="PackedScene" path="res://collectibles/world_collectibles.tscn" id="20_wcol"]
-[ext_resource type="PackedScene" path="res://collectibles/powerup/world_powerups.tscn" id="21_wpow"]
-[ext_resource type="PackedScene" path="res://entities/enemies/world_enemies.tscn" id="22_wene"]
-[ext_resource type="PackedScene" uid="uid://dpausemenu12345" path="res://ui/pause_menu.tscn" id="23_pause"]
+[ext_resource type="PackedScene" uid="uid://cnb5q2r8h4wvk" path="res://environment/world_background.tscn" id="18_wbg"]
+[ext_resource type="PackedScene" uid="uid://d2g5n8m3x7rpq" path="res://environment/world_environment.tscn" id="19_wenv"]
+[ext_resource type="PackedScene" uid="uid://bm7xq3n5h2rpk" path="res://collectibles/world_collectibles.tscn" id="20_wcol"]
+[ext_resource type="PackedScene" uid="uid://cp4nx7m2q5rpk" path="res://collectibles/powerup/world_powerups.tscn" id="21_wpow"]
+[ext_resource type="PackedScene" uid="uid://dm8qr5n2x4vpk" path="res://entities/enemies/world_enemies.tscn" id="22_wene"]
+[ext_resource type="PackedScene" uid="uid://bt0umbtnv0iea" path="res://ui/pause_menu.tscn" id="23_pause"]
 
 [node name="World" type="Node2D"]
 position = Vector2(31, -9)
@@ -32,7 +32,7 @@ layer_1/tile_data = PackedInt32Array(2424839, 131073, 10, 2424840, 131073, 9, 24
 z_index = 10
 
 [node name="player" parent="Player" instance=ExtResource("14_f7ltt")]
-position = Vector2(170, 227)
+position = Vector2(-63, 169)
 JUMP_VELOCITY = -300.0
 metadata/_edit_group_ = true
 

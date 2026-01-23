@@ -42,6 +42,7 @@ var jetpack_enabled
 var direction = "right"
 var fuel_level
 var player_position_uv : Vector2
+var spawn_position : Vector2
 
 @onready var raycasts = $Raycasts
 @onready var screen_dimensions = Vector2(get_viewport().size)
@@ -50,6 +51,9 @@ var player_position_uv : Vector2
 func _ready():
 	Utils.saveGame()
 	Utils.loadGame()
+
+	# Store initial spawn position
+	spawn_position = global_position
 
 	jetpack_enabled = Game.jetpack
 
@@ -187,8 +191,33 @@ func set_direction_left() -> void:
 
 func die():
 	if Game.player_hp <= 0:
-		queue_free()
-		get_tree().change_scene_to_file("res://main.tscn")
+		var death_state = state_machine.get_state("DEATH")
+		if death_state and state_machine.current_state != death_state:
+			state_machine.switch_state(death_state)
+
+func respawn():
+	# Reset player position
+	global_position = spawn_position
+
+	# Reset HP
+	Game.player_hp = 25  # Reduced for testing (was 100)
+
+	# Reset sprite visibility
+	sprite.modulate.a = 1.0
+
+	# Re-enable physics
+	set_physics_process(true)
+
+	# Transition to IDLE state
+	var idle_state = state_machine.get_state("IDLE")
+	if idle_state:
+		state_machine.switch_state(idle_state)
+
+	# Emit respawn signal
+	Events.emit_signal("player_respawned")
+
+func set_checkpoint(pos: Vector2):
+	spawn_position = pos
 
 func get_next_to_wall():
 	for raycast in raycasts.get_children():

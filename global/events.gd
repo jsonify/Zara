@@ -7,4 +7,6 @@ signal cave_entered
 signal jetpack_collected
 signal thrust_engaged
 signal thrust_not_engaged
+signal player_died
+signal player_respawned
 

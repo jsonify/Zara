@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cd17ai7s7md7x"]
+[gd_scene load_steps=30 format=3 uid="uid://cd17ai7s7md7x"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_kq41b"]
 [ext_resource type="Script" path="res://entities/base/UnifiedStateMachine.gd" id="4_2d2iv"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://cm4gxf7v8ys3q" path="res://entities/player/ATTACK.tscn" id="11_attack"]
 [ext_resource type="PackedScene" uid="uid://bqv4n7m8h2xpk" path="res://entities/player/RANGED.tscn" id="12_ranged"]
 [ext_resource type="PackedScene" uid="uid://c8nh4xq2py5rm" path="res://entities/player/HIT.tscn" id="13_hit"]
+[ext_resource type="PackedScene" uid="uid://cdeath5t8q2py" path="res://entities/player/DEATH.tscn" id="14_death"]
 [ext_resource type="Gradient" uid="uid://cpuhv63pldqxr" path="res://effects/thrust_gradient.tres" id="12_yuvj5"]
 [ext_resource type="Texture2D" uid="uid://cunvbcktlha0f" path="res://assets/effects/smoke.png" id="13_6xtef"]
 [ext_resource type="PackedScene" path="res://overlaps/hit_box.tscn" id="13_rn704"]
@@ -262,6 +263,8 @@ coyote_duration = 0.2
 
 [node name="HIT" parent="StateMachine" instance=ExtResource("13_hit")]
 
+[node name="DEATH" parent="StateMachine" instance=ExtResource("14_death")]
+
 [node name="Raycasts" type="Node2D" parent="."]
 
 [node name="TopRight" type="RayCast2D" parent="Raycasts"]
@@ -295,12 +298,12 @@ shape = SubResource("RectangleShape2D_48o2i")
 [node name="HurtBox" parent="." instance=ExtResource("14_pgkv5")]
 collision_layer = 512
 collision_mask = 128
+monitoring = true
 
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
 position = Vector2(1, -5.25)
 shape = SubResource("RectangleShape2D_b8vyf")
 
-[connection signal="body_entered" from="HitBox" to="HitBox" method="_on_body_entered"]
 [connection signal="area_entered" from="HurtBox" to="HurtBox" method="_on_area_entered"]
 
 [editable path="HurtBox"]
