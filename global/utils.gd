@@ -1,7 +1,7 @@
 extends Node
 
 const INDICATOR_DAMAGE = preload("res://ui/damage_indicator.tscn")
-const SAVE_PATH := "res://savegame.bin"
+const SAVE_PATH := "user://savegame.bin"
 
 func saveGame():
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)

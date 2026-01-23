@@ -71,11 +71,12 @@ Both player and enemy use a unified state machine pattern (`entities/base/`):
 - `thrust`: Right Mouse Button
 - `attack`: J/Left Mouse Button (melee)
 - `ranged`: K (projectile)
+- `pause`: Escape (pause menu)
 - `save`: Cmd+J
 
 ## Save System
 
-Binary file at `res://savegame.bin` containing JSON (HP, gold, fuel, abilities). See `Utils.save_game()` and `Utils.load_game()`.
+Binary file at `user://savegame.bin` containing JSON (HP, gold, fuel, abilities). See `Utils.saveGame()` and `Utils.loadGame()`.
 
 ## Conventions
 
@@ -105,5 +106,5 @@ Binary file at `res://savegame.bin` containing JSON (HP, gold, fuel, abilities).
 
 ### Polish
 - [ ] Add death/respawn system
-- [ ] Add pause menu
-- [ ] Move save file to user:// instead of res:// for exported builds
+- [x] Add pause menu - Escape key toggles pause with Resume/Main Menu/Quit options
+- [x] Move save file to user:// instead of res:// for exported builds

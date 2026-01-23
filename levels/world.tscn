@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bnre0tptu8h1y"]
+[gd_scene load_steps=13 format=3 uid="uid://bnre0tptu8h1y"]
 
 [ext_resource type="Script" uid="uid://e3onkjybi6rk" path="res://levels/world.gd" id="1_gvcph"]
 [ext_resource type="TileSet" uid="uid://bb0ehveqi55rv" path="res://levels/world.tres" id="2_ctgwt"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" path="res://collectibles/world_collectibles.tscn" id="20_wcol"]
 [ext_resource type="PackedScene" path="res://collectibles/powerup/world_powerups.tscn" id="21_wpow"]
 [ext_resource type="PackedScene" path="res://entities/enemies/world_enemies.tscn" id="22_wene"]
+[ext_resource type="PackedScene" uid="uid://dpausemenu12345" path="res://ui/pause_menu.tscn" id="23_pause"]
 
 [node name="World" type="Node2D"]
 position = Vector2(31, -9)
@@ -59,3 +60,5 @@ visible = true
 [node name="WorldPowerups" parent="." instance=ExtResource("21_wpow")]
 
 [node name="WorldEnemies" parent="." instance=ExtResource("22_wene")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("23_pause")]
