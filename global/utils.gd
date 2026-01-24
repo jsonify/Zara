@@ -10,13 +10,17 @@ func saveGame():
 		"gold": Game.gold,
 		"fuel_level": Game.fuel_level,
 		"jetpack": Game.jetpack,
+		"max_player_hp": Game.max_player_hp,
+		"max_fuel_level": Game.max_fuel_level,
+		"inventory": Game.inventory,
+		"purchased_upgrades": Game.purchased_upgrades,
 	}
-	
+
 	var json_string = JSON.stringify(data)
 	file.store_line(json_string)
 	print("file saved")
-	
-	
+
+
 func loadGame():
 	var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
 	if FileAccess.file_exists(SAVE_PATH) == true:
@@ -27,3 +31,8 @@ func loadGame():
 				Game.gold = current_line["gold"]
 				Game.fuel_level = current_line["fuel_level"]
 				Game.jetpack = current_line["jetpack"]
+				# Load new shop system data with defaults for older saves
+				Game.max_player_hp = current_line.get("max_player_hp", 25)
+				Game.max_fuel_level = current_line.get("max_fuel_level", 30.0)
+				Game.inventory = current_line.get("inventory", {})
+				Game.purchased_upgrades = current_line.get("purchased_upgrades", [])
