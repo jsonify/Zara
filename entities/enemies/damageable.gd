@@ -31,6 +31,7 @@ func _on_animation_tree_animation_finished(anim_name):
 func _drop_gold():
 	if gold_drop_amount > 0 and GOLD_COIN_SCENE:
 		var gold = GOLD_COIN_SCENE.instantiate()
-		gold.gold_amount = gold_drop_amount
-		gold.global_position = get_parent().global_position
-		get_tree().current_scene.add_child(gold)
+		if gold:
+			gold.gold_amount = gold_drop_amount
+			gold.global_position = get_parent().global_position
+			get_tree().current_scene.add_child(gold)

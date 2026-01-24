@@ -16,10 +16,7 @@ var inventory: Dictionary = {}  # { "item_id": count }
 var purchased_upgrades: Array = []
 
 func add_item(item_id: String, count: int = 1) -> void:
-	if inventory.has(item_id):
-		inventory[item_id] += count
-	else:
-		inventory[item_id] = count
+	inventory[item_id] = inventory.get(item_id, 0) + count
 	Events.emit_signal("inventory_changed", item_id, inventory[item_id])
 
 func remove_item(item_id: String, count: int = 1) -> bool:
@@ -28,9 +25,7 @@ func remove_item(item_id: String, count: int = 1) -> bool:
 	inventory[item_id] -= count
 	if inventory[item_id] <= 0:
 		inventory.erase(item_id)
-		Events.emit_signal("inventory_changed", item_id, 0)
-	else:
-		Events.emit_signal("inventory_changed", item_id, inventory[item_id])
+	Events.emit_signal("inventory_changed", item_id, get_item_count(item_id))
 	return true
 
 func has_item(item_id: String, count: int = 1) -> bool:

@@ -83,9 +83,10 @@ func _create_item_row(item: ShopItemResource) -> HBoxContainer:
 	buy_button.pressed.connect(_on_buy_pressed.bind(item))
 	row.add_child(buy_button)
 
-	# Dim the price if player can't afford
+	# Dim the price and disable button if player can't afford
 	if Game.gold < item.price:
 		price_label.modulate = Color.RED
+		buy_button.disabled = true
 
 	return row
 

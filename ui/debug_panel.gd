@@ -7,7 +7,7 @@ extends CanvasLayer
 @onready var panel := $Panel
 @onready var toggle_btn := $ToggleBtn
 
-var is_visible := false
+var panel_visible := false
 var health_bar_visible := true
 var fuel_bar_visible := true
 
@@ -23,19 +23,19 @@ func _unhandled_input(event):
 		get_viewport().set_input_as_handled()
 
 func toggle_panel():
-	if is_visible:
+	if panel_visible:
 		hide_panel()
 	else:
 		show_panel()
 
 func show_panel():
-	is_visible = true
+	panel_visible = true
 	panel.visible = true
 	toggle_btn.visible = false
 	_refresh_values()
 
 func hide_panel():
-	is_visible = false
+	panel_visible = false
 	panel.visible = false
 	if dev_mode:
 		toggle_btn.visible = true
@@ -46,7 +46,7 @@ func _refresh_values():
 	$Panel/VBox/FuelRow/Val.text = str(int(Game.fuel_level))
 
 func _process(_delta):
-	if is_visible:
+	if panel_visible:
 		_refresh_values()
 
 # HP controls
