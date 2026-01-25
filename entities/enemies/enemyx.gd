@@ -20,28 +20,28 @@ func _ready():
 		if shape.shape is RectangleShape2D:
 			shape.shape.size = detection_area_size
 
-func _process(_delta):
-	if player_chase:
-		var direction = (player.position - position).normalized()
-		velocity = direction * chase_speed
-		move_and_slide()
-		if player.position.x < position.x:
-			sprite.scale.x = -1
-		else:
-			sprite.scale.x = 1
-	else:
-		velocity = Vector2(speed, 0)
-		move_and_slide()
-
 func _physics_process(_delta):
-	if player and abs(player.position.x - position.x) > detection_range:
+	# Check if player is out of detection range
+	if player and abs(player.global_position.x - global_position.x) > detection_range:
 		player_chase = false
 
-	if raycast:
-		raycast.target_position = Vector2(sprite.scale.x * raycast_distance, 0)
-		raycast.force_raycast_update()
-		if not raycast.is_colliding():
-			sprite.scale.x *= -1
+	if player_chase and player:
+		# Chase the player
+		var direction = (player.global_position - global_position).normalized()
+		velocity = direction * chase_speed
+		if direction.x != 0:
+			sprite.scale.x = sign(direction.x)
+	else:
+		# Patrol logic
+		if raycast:
+			raycast.target_position = Vector2(sprite.scale.x * raycast_distance, 0)
+			raycast.force_raycast_update()
+			if not raycast.is_colliding() or is_on_wall():
+				sprite.scale.x *= -1
+
+		velocity.x = speed * sprite.scale.x
+
+	move_and_slide()
 
 func _on_detection_area_body_entered(body):
 	if body is Player:
