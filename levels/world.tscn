@@ -1,10 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://bnre0tptu8h1y"]
+[gd_scene load_steps=15 format=3 uid="uid://bnre0tptu8h1y"]
 
 [ext_resource type="Script" uid="uid://e3onkjybi6rk" path="res://levels/world.gd" id="1_gvcph"]
 [ext_resource type="TileSet" uid="uid://bb0ehveqi55rv" path="res://levels/world.tres" id="2_ctgwt"]
 [ext_resource type="PackedScene" uid="uid://cdtierpk5plno" path="res://ui/ui.tscn" id="5_ede1p"]
 [ext_resource type="Texture2D" uid="uid://pjvytq36d4mj" path="res://assets/world/circle-fade.png" id="7_jqmhk"]
+[ext_resource type="PackedScene" uid="uid://dtqsh3kfl18gg" path="res://collectibles/gold/gold_coin.tscn" id="13_mla2a"]
 [ext_resource type="PackedScene" uid="uid://cd17ai7s7md7x" path="res://entities/player/player.tscn" id="14_f7ltt"]
+[ext_resource type="PackedScene" uid="uid://bqkfm2nj8g6vx" path="res://collectibles/shop/shop_station.tscn" id="14_oxfhy"]
 [ext_resource type="PackedScene" uid="uid://c2agmia81gv6x" path="res://ui/health_changed_mananger.tscn" id="17_bb8s7"]
 [ext_resource type="PackedScene" uid="uid://cnb5q2r8h4wvk" path="res://environment/world_background.tscn" id="18_wbg"]
 [ext_resource type="PackedScene" uid="uid://d2g5n8m3x7rpq" path="res://environment/world_environment.tscn" id="19_wenv"]
@@ -32,7 +34,7 @@ layer_1/tile_data = PackedInt32Array(2424839, 131073, 10, 2424840, 131073, 9, 24
 z_index = 10
 
 [node name="player" parent="Player" instance=ExtResource("14_f7ltt")]
-position = Vector2(-63, 169)
+position = Vector2(404, 593)
 JUMP_VELOCITY = -300.0
 metadata/_edit_group_ = true
 
@@ -62,3 +64,9 @@ visible = true
 [node name="WorldEnemies" parent="." instance=ExtResource("22_wene")]
 
 [node name="PauseMenu" parent="." instance=ExtResource("23_pause")]
+
+[node name="GoldCoin" parent="." instance=ExtResource("13_mla2a")]
+position = Vector2(131, 229)
+
+[node name="ShopStation" parent="." instance=ExtResource("14_oxfhy")]
+position = Vector2(250, 617)

@@ -12,13 +12,13 @@
 [ext_resource type="Texture2D" uid="uid://c785ank2j0s4h" path="res://assets/puzzle_objects/Head.png" id="9_ngr0g"]
 [ext_resource type="Script" path="res://ui/pink_horn_ui.gd" id="10_mvv6e"]
 
-[node name="UI" type="CanvasLayer"]
+[node name="UI" type="CanvasLayer" groups=["game_ui"]]
 
 [node name="HealthBarTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="Gold" type="Label" parent="."]
-visible = false
+visible = true
 offset_left = 10.0
 offset_top = 33.0
 offset_right = 103.0

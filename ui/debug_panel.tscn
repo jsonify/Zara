@@ -1,0 +1,180 @@
+[gd_scene load_steps=2 format=3 uid="uid://62qk53i0t6l7"]
+
+[ext_resource type="Script" uid="uid://bwxeei0mj54vy" path="res://ui/debug_panel.gd" id="1_debug"]
+
+[node name="DebugPanel" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_debug")
+dev_mode = true
+
+[node name="ToggleBtn" type="Button" parent="."]
+visible = false
+offset_left = 310.0
+offset_top = 2.0
+offset_right = 318.0
+offset_bottom = 10.0
+theme_override_font_sizes/font_size = 4
+text = "D"
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 273.0
+offset_top = 2.0
+offset_right = 318.0
+offset_bottom = 62.0
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+theme_override_constants/separation = 0
+
+[node name="HPRow" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="Lbl" type="Label" parent="Panel/VBox/HPRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 4
+text = "HP"
+
+[node name="Down" type="Button" parent="Panel/VBox/HPRow"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+theme_override_font_sizes/font_size = 4
+text = "-"
+
+[node name="Val" type="Label" parent="Panel/VBox/HPRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 4
+text = "25"
+horizontal_alignment = 1
+
+[node name="Up" type="Button" parent="Panel/VBox/HPRow"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+theme_override_font_sizes/font_size = 4
+text = "+"
+
+[node name="GoldRow" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="Lbl" type="Label" parent="Panel/VBox/GoldRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 4
+text = "G"
+
+[node name="Down" type="Button" parent="Panel/VBox/GoldRow"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+theme_override_font_sizes/font_size = 4
+text = "-"
+
+[node name="Val" type="Label" parent="Panel/VBox/GoldRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 4
+text = "0"
+horizontal_alignment = 1
+
+[node name="Up" type="Button" parent="Panel/VBox/GoldRow"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+theme_override_font_sizes/font_size = 4
+text = "+"
+
+[node name="FuelRow" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="Lbl" type="Label" parent="Panel/VBox/FuelRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 4
+text = "F"
+
+[node name="Down" type="Button" parent="Panel/VBox/FuelRow"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+theme_override_font_sizes/font_size = 4
+text = "-"
+
+[node name="Val" type="Label" parent="Panel/VBox/FuelRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 4
+text = "30"
+horizontal_alignment = 1
+
+[node name="Up" type="Button" parent="Panel/VBox/FuelRow"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+theme_override_font_sizes/font_size = 4
+text = "+"
+
+[node name="ToggleRow" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="HP" type="Button" parent="Panel/VBox/ToggleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 4
+text = "HP:On"
+
+[node name="Fuel" type="Button" parent="Panel/VBox/ToggleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 4
+text = "F:On"
+
+[node name="BtnRow1" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="Max" type="Button" parent="Panel/VBox/BtnRow1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 4
+text = "Max"
+
+[node name="Gold" type="Button" parent="Panel/VBox/BtnRow1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 4
+text = "+$"
+
+[node name="BtnRow2" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="Items" type="Button" parent="Panel/VBox/BtnRow2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 4
+text = "Itm"
+
+[node name="Unlock" type="Button" parent="Panel/VBox/BtnRow2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 4
+text = "Unlk"
+
+[node name="Close" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 4
+text = "X"
+
+[connection signal="pressed" from="ToggleBtn" to="." method="_on_toggle_btn_pressed"]
+[connection signal="pressed" from="Panel/VBox/HPRow/Down" to="." method="_on_hp_down"]
+[connection signal="pressed" from="Panel/VBox/HPRow/Up" to="." method="_on_hp_up"]
+[connection signal="pressed" from="Panel/VBox/GoldRow/Down" to="." method="_on_gold_down"]
+[connection signal="pressed" from="Panel/VBox/GoldRow/Up" to="." method="_on_gold_up"]
+[connection signal="pressed" from="Panel/VBox/FuelRow/Down" to="." method="_on_fuel_down"]
+[connection signal="pressed" from="Panel/VBox/FuelRow/Up" to="." method="_on_fuel_up"]
+[connection signal="pressed" from="Panel/VBox/ToggleRow/HP" to="." method="_on_toggle_hp_pressed"]
+[connection signal="pressed" from="Panel/VBox/ToggleRow/Fuel" to="." method="_on_toggle_fuel_pressed"]
+[connection signal="pressed" from="Panel/VBox/BtnRow1/Max" to="." method="_on_max_pressed"]
+[connection signal="pressed" from="Panel/VBox/BtnRow1/Gold" to="." method="_on_gold_100_pressed"]
+[connection signal="pressed" from="Panel/VBox/BtnRow2/Items" to="." method="_on_items_pressed"]
+[connection signal="pressed" from="Panel/VBox/BtnRow2/Unlock" to="." method="_on_unlock_pressed"]
+[connection signal="pressed" from="Panel/VBox/Close" to="." method="_on_close_pressed"]

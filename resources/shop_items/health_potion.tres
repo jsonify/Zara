@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ShopItemResource" load_steps=2 format=3 uid="uid://c2xhkqp8rvnwm"]
+
+[ext_resource type="Script" path="res://resources/shop_item_resource.gd" id="1_shop"]
+
+[resource]
+script = ExtResource("1_shop")
+id = "health_potion"
+name = "Health Potion"
+description = "Restores 10 HP"
+price = 15
+type = 0
+effect_type = "health"
+effect_amount = 10.0
+upgrade_key = ""

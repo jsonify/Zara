@@ -63,6 +63,7 @@ func _ready():
 
 func _physics_process(delta):
 	player_input()
+	_handle_item_use()
 
 	# Display current state name for debugging
 	if state_machine.current_state:
@@ -76,6 +77,14 @@ func _physics_process(delta):
 
 	move_and_slide()
 	die()
+
+func _handle_item_use():
+	if Input.is_action_just_pressed("use_item"):
+		# Priority: health potion if HP < max, else fuel canister
+		if Game.player_hp < Game.max_player_hp and Game.has_item("health_potion"):
+			Game.use_item("health_potion")
+		elif Game.fuel_level < Game.max_fuel_level and Game.has_item("fuel_canister"):
+			Game.use_item("fuel_canister")
 
 func gravity(delta):
 	if not is_on_floor():
@@ -199,8 +208,8 @@ func respawn():
 	# Reset player position
 	global_position = spawn_position
 
-	# Reset HP
-	Game.player_hp = 25  # Reduced for testing (was 100)
+	# Reset HP to max
+	Game.player_hp = Game.max_player_hp
 
 	# Reset sprite visibility
 	sprite.modulate.a = 1.0

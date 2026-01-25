@@ -18,7 +18,7 @@ Open in Godot 4.5 and run the main scene:
 
 Four singletons manage game-wide state (defined in project.godot):
 
-- **Game** (`global/game.gd`): Player stats (HP, gold, fuel_level, jetpack, dash, slide abilities)
+- **Game** (`global/game.gd`): Player stats (HP, gold, fuel_level, jetpack, dash, slide abilities), inventory system, and purchased upgrades
 - **SignalBus** (`global/signal_bus.gd`): Central health change signals for UI
 - **Events** (`global/events.gd`): Game event signals (thrust, jetpack, etc.)
 - **Utils** (`global/utils.gd`): Save/load game data + UI utilities
@@ -59,8 +59,8 @@ Both player and enemy use a unified state machine pattern (`entities/base/`):
 - `entities/player/` - Player controller and state scripts
 - `entities/enemies/` - Enemy implementations (base_enemy.gd for patrol, enemyx.gd for chasing, flower/ for state-machine enemy)
 - `overlaps/` - HitBox/HurtBox damage components
-- `collectibles/` - Fuel pickups, destructible boxes, powerup stations
-- `resources/` - Enemy stat resources (enemy_resource_base.gd)
+- `collectibles/` - Fuel pickups, gold coins, destructible boxes, powerup stations, shop stations
+- `resources/` - Enemy stat resources (enemy_resource_base.gd), shop item resources (shop_item_resource.gd)
 
 ## Input Actions
 
@@ -73,10 +73,35 @@ Both player and enemy use a unified state machine pattern (`entities/base/`):
 - `ranged`: K (projectile)
 - `pause`: Escape (pause menu)
 - `save`: Cmd+J
+- `use_item`: Q (use health potion or fuel canister)
+- `take`: E (interact with shop stations)
 
 ## Save System
 
-Binary file at `user://savegame.bin` containing JSON (HP, gold, fuel, abilities). See `Utils.saveGame()` and `Utils.loadGame()`.
+Binary file at `user://savegame.bin` containing JSON (HP, gold, fuel, abilities, inventory, purchased upgrades). See `Utils.saveGame()` and `Utils.loadGame()`.
+
+## Currency/Shop System
+
+Players earn gold from killing enemies and collecting gold coins. Gold can be spent at shop stations.
+
+### Shop Items
+- **Consumables**: Health Potion (10 HP, 15g), Fuel Canister (10 fuel, 10g)
+- **Upgrades**: Fuel Tank Upgrade (+10 max fuel, 50g) - permanent, one-time purchase
+
+### Key Files
+- `collectibles/gold/gold_coin.gd` - Gold pickup collectible
+- `collectibles/shop/shop_station.gd` - Interactive shop station
+- `ui/shop_menu.gd` - Shop UI with item purchasing
+- `resources/shop_item_resource.gd` - Shop item resource class
+- `resources/shop_items/` - Item definitions (.tres files)
+
+### Inventory Functions (Game autoload)
+- `Game.add_item(item_id, count)` - Add items to inventory
+- `Game.remove_item(item_id, count)` - Remove items from inventory
+- `Game.has_item(item_id, count)` - Check if player has items
+- `Game.use_item(item_id)` - Use a consumable item
+- `Game.has_upgrade(upgrade_key)` - Check if upgrade purchased
+- `Game.add_upgrade(upgrade_key)` - Add and apply upgrade
 
 ## Conventions
 
@@ -101,7 +126,7 @@ Binary file at `user://savegame.bin` containing JSON (HP, gold, fuel, abilities)
 
 ### Features to Expand
 - [ ] Expand dialogue system - currently only `powerup_stations.json` exists
-- [ ] Implement gold currency usage (tracked but not spent)
+- [x] Implement gold currency usage - shop system with consumables and upgrades
 - [ ] Add more enemy types using the `CharacterStateMachine` pattern
 
 ### Polish
