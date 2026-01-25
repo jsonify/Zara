@@ -11,7 +11,7 @@ func _ready():
 	velocity.x = 25
 	
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	move()
 
 func move():

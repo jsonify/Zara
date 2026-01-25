@@ -1,7 +1,5 @@
 extends Area2D
 
-signal fuel_guage_enabled
-
 func _on_body_entered(body):
 	if body is Player:
 		Game.jetpack = true
