@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgen3r4t0r1ev3l"]
+
+[ext_resource type="Script" path="res://levels/generator/level_generator.gd" id="1_gen"]
+[ext_resource type="TileSet" uid="uid://bb0ehveqi55rv" path="res://levels/world.tres" id="2_tileset"]
+
+[node name="LevelGenerator" type="Node2D"]
+script = ExtResource("1_gen")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_tileset")
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="Rooms" type="Node2D" parent="."]

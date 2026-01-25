@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://cc0mb4tb4s1cr00m"]
+
+[ext_resource type="TileSet" uid="uid://bb0ehveqi55rv" path="res://levels/world.tres" id="1_tileset"]
+
+[node name="CombatBasic" type="Node2D"]
+metadata/entry_point = Vector2i(1, 9)
+metadata/exit_point = Vector2i(23, 9)
+metadata/room_width = 25
+metadata/room_height = 12
+metadata/room_category = "combat"
+metadata/spawn_zones = [Vector2(8, 8), Vector2(12, 8), Vector2(18, 8)]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_tileset")
+tile_map_data = "eJxjYBgFgx0YGCShPC1BRlrqBwYeAPYpACs="

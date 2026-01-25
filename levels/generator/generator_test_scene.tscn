@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://dqqxnbu1bnk03"]
+
+[ext_resource type="Script" uid="uid://d2ayt1fvrgmk8" path="res://levels/generator/generator_test_scene.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://levels/generator/standalone_generator.tscn" id="2_generator"]
+[ext_resource type="PackedScene" uid="uid://cd17ai7s7md7x" path="res://entities/player/player.tscn" id="3_player"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.1, 0.1, 0.1, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="GeneratorTestScene" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="StandaloneGenerator" parent="." instance=ExtResource("2_generator")]
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(48, 256)
+
+[node name="Camera2D2" type="Camera2D" parent="Player"]
+zoom = Vector2(2, 2)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="PanelContainer" parent="UI"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 200.0
+offset_bottom = 160.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="UI/Panel"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="UI/Panel/VBox"]
+layout_mode = 2
+text = "Level Generator"
+horizontal_alignment = 1
+
+[node name="SeedLabel" type="Label" parent="UI/Panel/VBox"]
+layout_mode = 2
+text = "Seed: 0"
+
+[node name="DifficultyLabel" type="Label" parent="UI/Panel/VBox"]
+layout_mode = 2
+text = "Difficulty: 5"
+
+[node name="DifficultySlider" type="HSlider" parent="UI/Panel/VBox"]
+layout_mode = 2
+focus_mode = 0
+min_value = 1.0
+max_value = 10.0
+value = 5.0
+
+[node name="GenerateButton" type="Button" parent="UI/Panel/VBox"]
+layout_mode = 2
+focus_mode = 0
+text = "Generate New Level"
+
+[node name="HintLabel" type="Label" parent="UI/Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Press R to regenerate"
+horizontal_alignment = 1
+
+[connection signal="value_changed" from="UI/Panel/VBox/DifficultySlider" to="." method="_on_difficulty_slider_value_changed"]
+[connection signal="pressed" from="UI/Panel/VBox/GenerateButton" to="." method="_on_generate_button_pressed"]

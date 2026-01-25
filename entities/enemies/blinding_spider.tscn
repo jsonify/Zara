@@ -59,3 +59,5 @@ position = Vector2(0, 0)
 
 [node name="Sprite2D" parent="Marker2D" index="0"]
 texture = ExtResource("1_56xbl")
+hframes = 22
+frame = 1
