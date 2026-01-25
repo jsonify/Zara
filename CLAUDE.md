@@ -134,6 +134,7 @@ Unit tests use the [GUT](https://gut.readthedocs.io/) (Godot Unit Testing) frame
 
 - `test/unit/test_inventory.gd` - Inventory system (add/remove/use items, upgrades)
 - `test/unit/test_damage_system.gd` - Damage system (Damageable, HitBox, HurtBox components)
+- `test/unit/test_state_machine.gd` - State machine (UnifiedState, UnifiedStateMachine, transitions)
 
 ## Conventions
 
