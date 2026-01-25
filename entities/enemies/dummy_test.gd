@@ -5,7 +5,7 @@ extends CharacterBody2D
 
 var direction = Vector2.RIGHT
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	detect_turn_around()
 	patrol()
 	move_and_slide()
@@ -28,5 +28,5 @@ func detect_turn_around():
 		scale.x = -1
 
 
-func _on_hurt_box_area_entered(area):
+func _on_hurt_box_area_entered(_area):
 	queue_free()

@@ -61,7 +61,7 @@ func _ready():
 	if hurt_box:
 		hurt_box.take_damage.connect(_on_hurt_box_take_damage)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	player_input()
 	_handle_item_use()
 

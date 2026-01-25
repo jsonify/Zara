@@ -7,11 +7,11 @@ extends BaseEnemy
 var player_detected := false
 var player_chase := false
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	patrol()
 	detect_turn_around()
 	move_and_slide()
 
 func patrol():
 	animation_player.play("walk")
-	velocity = direction * normal_speed
+	velocity = direction * speed

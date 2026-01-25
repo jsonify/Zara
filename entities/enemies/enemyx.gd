@@ -1,31 +1,46 @@
 extends CharacterBody2D
 
 @onready var sprite = $Sprite2D
+@onready var raycast = $RayCast2D
+@onready var detection_area = $DetectionArea
 
 @export var speed := 100
 @export var chase_speed := 200
 @export var detection_range := 200
-#@export var detection_area_size := Vector2(200, 200)
+@export var detection_area_size := Vector2(200, 200)
 @export var raycast_distance := 50
 
 var player_chase := false
 var player = null
 
-func _process(delta):
+func _ready():
+	# Configure detection area if it has a collision shape
+	if detection_area and detection_area.has_node("CollisionShape2D"):
+		var shape = detection_area.get_node("CollisionShape2D")
+		if shape.shape is RectangleShape2D:
+			shape.shape.size = detection_area_size
+
+func _process(_delta):
 	if player_chase:
 		var direction = (player.position - position).normalized()
-		var velocity = direction * chase_speed
+		velocity = direction * chase_speed
 		move_and_slide()
 		if player.position.x < position.x:
 			sprite.scale.x = -1
 		else:
 			sprite.scale.x = 1
 	else:
-		move_and_slide(Vector2(speed, 0), GRAVITY, Vector2(0, -1))
+		velocity = Vector2(speed, 0)
+		move_and_slide()
 
-	var collision = move_and_collide(Vector2(speed, 0) * delta, false, false)
-	if collision:
-		if collision.collider.name == "RayCast2D":
+func _physics_process(_delta):
+	if player and abs(player.position.x - position.x) > detection_range:
+		player_chase = false
+
+	if raycast:
+		raycast.target_position = Vector2(sprite.scale.x * raycast_distance, 0)
+		raycast.force_raycast_update()
+		if not raycast.is_colliding():
 			sprite.scale.x *= -1
 
 func _on_detection_area_body_entered(body):
@@ -37,18 +52,3 @@ func _on_detection_area_body_exited(body):
 	if body is Player:
 		player = null
 		player_chase = false
-
-func _physics_process(delta):
-	if player and abs(player.position.x - position.x) > detection_range:
-		player_chase = false
-
-	var ray_start = position + Vector2(sprite.scale.x * sprite.texture.width / 2, 0)
-	var ray_end = ray_start + Vector2(sprite.scale.x * raycast_distance, 0)
-	raycast.cast_to = Vector2(sprite.scale.x * raycast_distance, 0)
-	raycast.force_raycast_update()
-	if not raycast.is_colliding():
-		sprite.scale.x *= -1
-
-func _ready():
-	detection_area.shape = Rect2(-detection_area_size / 2, detection_area_size)
-	detection_area.set_as_trigger(true)

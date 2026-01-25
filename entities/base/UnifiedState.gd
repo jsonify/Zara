@@ -13,6 +13,7 @@ var animation_player: AnimationPlayer
 var playback: AnimationNodeStateMachinePlayback  # For AnimationTree users
 var next_state: UnifiedState
 
+@warning_ignore("unused_signal")
 signal interrupt_state(new_state: UnifiedState)
 
 ## Called every physics frame. Return a state to transition, or set next_state.

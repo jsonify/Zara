@@ -18,7 +18,7 @@ func _ready():
 func on_enter():
 	timer.start()
 
-func on_damageable_hit(node: Node, damage_amount: int, knockback_direction: Vector2):
+func on_damageable_hit(_node: Node, _damage_amount: int, knockback_direction: Vector2):
 	if damageable.health > 0:
 		character.velocity = knockback_speed * knockback_direction
 		emit_signal("interrupt_state", self)
