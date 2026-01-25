@@ -55,3 +55,13 @@ Temporary Items
 *.icloud
 
 # End of https://www.toptal.com/developers/gitignore/api/godot,macos
+
+### GUT (Godot Unit Testing) ###
+# Editor config (user-specific settings)
+.gut_editor_config.json
+.gut_editor_shortcuts.cfg
+
+# Test results/temp files
+gut_results.json
+gut_results.xml
+*.gut.json

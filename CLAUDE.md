@@ -103,6 +103,38 @@ Players earn gold from killing enemies and collecting gold coins. Gold can be sp
 - `Game.has_upgrade(upgrade_key)` - Check if upgrade purchased
 - `Game.add_upgrade(upgrade_key)` - Add and apply upgrade
 
+## Testing
+
+Unit tests use the [GUT](https://gut.readthedocs.io/) (Godot Unit Testing) framework.
+
+### Running Tests
+
+**Command line:**
+```bash
+/Applications/Godot.app/Contents/MacOS/Godot --headless -s addons/gut/gut_cmdln.gd
+```
+
+**In Godot Editor:** Use the GUT panel at the bottom of the editor and click "Run All".
+
+### Test Conventions
+
+- Test files go in `test/unit/` with prefix `test_` (e.g., `test_inventory.gd`)
+- Test functions must start with `test_`
+- Extend `GutTest` for all test classes
+- Use `before_each()`/`after_each()` to save and restore global state (Game, Events, etc.)
+- Use `watch_signals()` and `assert_signal_emitted_with_parameters()` to verify signal emissions
+
+### When to Write Tests
+
+- When modifying core systems (inventory, damage, state machines)
+- When adding new functionality to global autoloads (Game, Events, Utils)
+- When fixing bugs (write a failing test first, then fix)
+
+### Existing Test Coverage
+
+- `test/unit/test_inventory.gd` - Inventory system (add/remove/use items, upgrades)
+- `test/unit/test_damage_system.gd` - Damage system (Damageable, HitBox, HurtBox components)
+
 ## Conventions
 
 - Heavy signal usage for decoupled communication
@@ -128,6 +160,9 @@ Players earn gold from killing enemies and collecting gold coins. Gold can be sp
 - [ ] Expand dialogue system - currently only `powerup_stations.json` exists
 - [x] Implement gold currency usage - shop system with consumables and upgrades
 - [ ] Add more enemy types using the `CharacterStateMachine` pattern
+
+### Testing
+- [ ] Add physics-based integration tests for damage system (HitBox/HurtBox collision detection with scene instantiation)
 
 ### Polish
 - [x] Add death/respawn system - DEATH state with fade animation, respawn at spawn point with HP reset

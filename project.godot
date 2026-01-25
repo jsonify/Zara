@@ -31,6 +31,10 @@ window/size/window_width_override=2240
 window/size/window_height_override=1260
 window/stretch/mode="canvas_items"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
+
 [input]
 
 left={
