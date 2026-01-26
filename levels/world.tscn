@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://bnre0tptu8h1y"]
+[gd_scene load_steps=16 format=3 uid="uid://bnre0tptu8h1y"]
 
 [ext_resource type="Script" uid="uid://e3onkjybi6rk" path="res://levels/world.gd" id="1_gvcph"]
 [ext_resource type="TileSet" uid="uid://bb0ehveqi55rv" path="res://levels/world.tres" id="2_ctgwt"]
 [ext_resource type="PackedScene" uid="uid://cdtierpk5plno" path="res://ui/ui.tscn" id="5_ede1p"]
+[ext_resource type="PackedScene" uid="uid://dj7m1vxa1f547" path="res://entities/enemies/flower/flowery.tscn" id="6_54i5j"]
 [ext_resource type="Texture2D" uid="uid://pjvytq36d4mj" path="res://assets/world/circle-fade.png" id="7_jqmhk"]
 [ext_resource type="PackedScene" uid="uid://dtqsh3kfl18gg" path="res://collectibles/gold/gold_coin.tscn" id="13_mla2a"]
 [ext_resource type="PackedScene" uid="uid://cd17ai7s7md7x" path="res://entities/player/player.tscn" id="14_f7ltt"]
@@ -70,3 +71,6 @@ position = Vector2(131, 229)
 
 [node name="ShopStation" parent="." instance=ExtResource("14_oxfhy")]
 position = Vector2(250, 617)
+
+[node name="Flowery" parent="." instance=ExtResource("6_54i5j")]
+position = Vector2(185, 612)

@@ -6,6 +6,10 @@ var fuel_level: float = 30.0
 var jetpack = false
 var dash = false
 var slide = false
+var has_grenades = false
+
+# Grenade settings
+var grenade_fuel_cost: float = 8.0
 
 # Max values for upgrades
 var max_player_hp = 25

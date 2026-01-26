@@ -14,6 +14,8 @@ signal cave_entered
 @warning_ignore("unused_signal")
 signal jetpack_collected
 @warning_ignore("unused_signal")
+signal grenades_collected
+@warning_ignore("unused_signal")
 signal thrust_engaged
 @warning_ignore("unused_signal")
 signal thrust_not_engaged

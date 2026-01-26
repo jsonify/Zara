@@ -2,8 +2,10 @@ extends Area2D
 
 class_name Projectile
 
+const EXPLOSION_SCENE = preload("res://effects/explosion.tscn")
+
 @export var speed := 150.0
-@export var damage := 1
+@export var damage := 15  # Passed to explosion
 @export var lifetime := 3.0
 @export var gravity_force := 300.0
 @export var launch_angle := -35.0  # Degrees, negative = upward
@@ -36,21 +38,22 @@ func set_direction(dir: Vector2):
 	if dir.x < 0:
 		velocity.x = -abs(velocity.x)  # Ensure left direction
 
-	print("Projectile launched with velocity: ", velocity)
-
-func _on_body_entered(body):
-	print("Projectile hit: ", body.name)
-
-	# Check if it's an enemy with Damageable
-	for child in body.get_children():
-		if child is Damageable:
-			print("Projectile: Found Damageable, applying damage: ", damage)
-			child.hit(damage, velocity.normalized())
-			queue_free()
-			return
-
-	# Hit environment or other obstacle - just destroy
-	queue_free()
+func _on_body_entered(_body):
+	# Use call_deferred to avoid physics query flush issues
+	call_deferred("_explode")
 
 func _on_lifetime_timer_timeout():
+	_explode()
+
+func _explode():
+	if not is_inside_tree():
+		return
+
+	# Spawn explosion at current position
+	var explosion = EXPLOSION_SCENE.instantiate()
+	explosion.damage = damage
+	get_tree().current_scene.add_child(explosion)
+	explosion.global_position = global_position
+
+	# Remove grenade
 	queue_free()

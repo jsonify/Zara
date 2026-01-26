@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bqkfm2nj8g6vx"]
+[gd_scene load_steps=5 format=3 uid="uid://bqkfm2nj8g6vx"]
 
-[ext_resource type="Script" path="res://collectibles/shop/shop_station.gd" id="1_shop"]
+[ext_resource type="Script" uid="uid://be3gm14lva2xj" path="res://collectibles/shop/shop_station.gd" id="1_shop"]
 [ext_resource type="PackedScene" uid="uid://c4rnkph7tq2jv" path="res://ui/shop_menu.tscn" id="2_menu"]
+[ext_resource type="Texture2D" uid="uid://eoh50kb52ywh" path="res://assets/shop/item-shop.png" id="2_q2emd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_shop"]
 size = Vector2(34, 33)
@@ -17,8 +18,9 @@ shape = SubResource("RectangleShape2D_shop")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 light_mask = 2
-position = Vector2(0, -11)
+position = Vector2(4, -9)
 scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_q2emd")
 
 [node name="TakeSign" type="Label" parent="."]
 visible = false
