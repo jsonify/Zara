@@ -26,26 +26,36 @@ Implement a resource-based combat system where the player uses **fuel grenades**
 Before building grenades, ensure the current combat systems work properly.
 
 ### 1.1 Wire Up Attack Input to States
-- [ ] In `player.gd`, add state transitions for `attack_input` flag
-- [ ] In `player.gd`, add state transitions for `ranged_input` flag
-- [ ] Verify ATTACK state activates melee HitBox
-- [ ] Verify RANGED state spawns projectile
+- [x] In `player.gd`, add state transitions for `attack_input` flag (ALREADY DONE in IDLE.gd/MOVE.gd)
+- [x] In `player.gd`, add state transitions for `ranged_input` flag (ALREADY DONE in IDLE.gd/MOVE.gd)
+- [x] Verify ATTACK state activates melee HitBox (verified in ATTACK.gd)
+- [x] Verify RANGED state spawns projectile (verified in RANGED.gd)
 - [ ] Test: Player can attack with J key / left mouse
 
 ### 1.2 Standardize Enemy Damage Handling
-- [ ] Add Damageable component to `base_enemy.tscn`
-- [ ] Add Damageable component to `spidey.tscn`
-- [ ] Add Damageable component to `enemyx.tscn`
-- [ ] Replace `queue_free()` calls with proper death handling
-- [ ] Add death animations to patrol enemies (or simple fade)
-- [ ] Ensure all enemies drop gold on death
+- [x] Add Damageable component to `base_enemy.tscn`
+- [x] Add HurtBox component to `base_enemy.tscn`
+- [x] Spidey inherits from base_enemy (gets Damageable automatically)
+- [x] enemyx.gd not used in any scene (skipped)
+- [x] Replace `queue_free()` calls with proper death handling
+- [x] Add death animations to patrol enemies (fade-out effect)
+- [x] Ensure all enemies drop gold on death (via Damageable._drop_gold())
 - [ ] Test: Enemies take damage and die properly
 
 ### 1.3 Verify Collision Layers
-- [ ] Confirm player HitBox hits enemy HurtBox
-- [ ] Confirm enemy HitBox hits player HurtBox
-- [ ] Confirm projectiles hit enemies
-- [ ] Document any collision layer issues
+- [x] Fixed AttackHitBox collision_mask: 256 → 260 (now detects enemy bodies)
+- [x] Confirm enemy HitBox hits player HurtBox (EnemyHitBox mask=512, PlayerHurtBox layer=512)
+- [x] Confirm projectiles hit enemies (Projectile mask=260 includes Enemy layer 4)
+- [ ] Test: Full collision verification in-game
+
+**Collision Layer Reference:**
+| Layer | Value | Name |
+|-------|-------|------|
+| 3 | 4 | Enemy (CharacterBody2D) |
+| 4 | 8 | Projectile |
+| 8 | 128 | HitBox |
+| 9 | 256 | EnemyHurtBox |
+| 10 | 512 | PlayerHurtBox |
 
 **Phase 1 Complete When:** Player can kill enemies with existing melee/ranged attacks, enemies die with animations and drop gold.
 
@@ -253,10 +263,11 @@ Ideas to potentially add later, not part of initial implementation:
 - `global/game.gd` - Add `has_grenades`, `grenade_fuel_cost`
 - `global/utils.gd` - Add grenade to save/load
 - `entities/player/RANGED.gd` - Spawn grenade, check fuel/unlock
-- `entities/player/player.gd` - Wire up ranged input to state
-- `entities/enemies/base_enemy.gd` - Add Damageable integration
-- `entities/enemies/spidey.gd` - Add Damageable integration
-- `entities/enemies/enemyx.gd` - Add Damageable integration
+- `entities/player/ATTACK.tscn` - Fixed collision mask (Phase 1) ✓
+- `entities/enemies/base_enemy.tscn` - Added Damageable + HurtBox (Phase 1) ✓
+- `entities/enemies/base_enemy.gd` - Added damage/death handling (Phase 1) ✓
+- `entities/enemies/spidey.gd` - Removed old queue_free() (Phase 1) ✓
+- `entities/enemies/blinding_spider.gd` - Added is_dead check (Phase 1) ✓
 - `levels/world_powerups.tscn` - Place grenade pickup
 
 ---
@@ -265,7 +276,7 @@ Ideas to potentially add later, not part of initial implementation:
 
 | Phase | Status | Notes |
 |-------|--------|-------|
-| Phase 1: Fix Infrastructure | Not Started | |
+| Phase 1: Fix Infrastructure | In Progress | Code complete, needs testing |
 | Phase 2: Grenade Core | Not Started | |
 | Phase 3: Unlock System | Not Started | |
 | Phase 4: Polish | Not Started | |

@@ -50,15 +50,21 @@ func _spawn_projectile():
 	var projectile = projectile_scene.instantiate()
 
 	# Get spawn position - offset from player based on direction
-	var spawn_offset = Vector2(8, -5) if player.direction == "right" else Vector2(-8, -5)
-	projectile.global_position = player.global_position + spawn_offset
+	# Y offset: negative is up, positive is down (-6 = torso level)
+	var spawn_offset = Vector2(4, -6) if player.direction == "right" else Vector2(-4, -6)
+	var target_pos = player.global_position + spawn_offset
+
+	print("RANGED: Player global_pos=", player.global_position, ", offset=", spawn_offset, ", target=", target_pos)
+
+	# Add to scene tree first, then set position
+	player.get_tree().current_scene.add_child(projectile)
+	projectile.global_position = target_pos
 
 	# Set projectile direction based on player facing
 	var proj_direction = Vector2.RIGHT if player.direction == "right" else Vector2.LEFT
 	projectile.set_direction(proj_direction)
 
-	# Add to scene tree
-	player.get_tree().current_scene.add_child(projectile)
+	print("RANGED: Projectile actual pos after spawn=", projectile.global_position)
 
 func _on_cooldown_timer_timeout():
 	can_shoot = true

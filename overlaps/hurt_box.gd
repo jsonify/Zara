@@ -17,6 +17,8 @@ func _on_area_entered(area: Area2D):
 		var hitbox = area as HitBox
 		var damage = hitbox.damage
 
+		print("HurtBox: Hit by ", area.name, " from ", area.get_parent().name if area.get_parent() else "unknown", " at ", area.global_position, " damage=", damage)
+
 		# Calculate knockback direction
 		var direction_to_self = (global_position - area.global_position).normalized()
 		var knockback_direction = Vector2(sign(direction_to_self.x), -0.5).normalized()

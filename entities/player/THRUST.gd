@@ -7,6 +7,13 @@ func state_process(delta) -> UnifiedState:
 
 	var player := character as Player
 
+	# Allow attacks while thrusting
+	if player.attack_input:
+		return get_parent().get_node("ATTACK") as UnifiedState
+
+	if player.ranged_input:
+		return get_parent().get_node("RANGED") as UnifiedState
+
 	if player.velocity.y > 0:
 		return get_parent().get_node("FALL") as UnifiedState
 

@@ -151,12 +151,14 @@ func player_input():
 	# ATTACK
 	if Input.is_action_just_pressed("attack"):
 		attack_input = true
+		print("Attack input detected! Current state: ", state_machine.current_state.name if state_machine.current_state else "none")
 	else:
 		attack_input = false
 
 	# RANGED
 	if Input.is_action_just_pressed("ranged"):
 		ranged_input = true
+		print("Ranged input detected! Current state: ", state_machine.current_state.name if state_machine.current_state else "none")
 	else:
 		ranged_input = false
 
@@ -171,9 +173,11 @@ func has_fuel():
 
 func change_direction(dir):
 	if dir == -1:
+		direction = "left"
 		$Sprite2D.flip_h = true
 		thrust_fire.position = Vector2(2, -2)
 	elif dir == 1:
+		direction = "right"
 		$Sprite2D.flip_h = false
 		thrust_fire.position = Vector2(-2, -2)
 

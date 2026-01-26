@@ -1,7 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://2tixbqfha3t"]
+[gd_scene load_steps=5 format=3 uid="uid://2tixbqfha3t"]
 
 [ext_resource type="Script" path="res://entities/enemies/base_enemy.gd" id="1_4kv28"]
 [ext_resource type="PackedScene" path="res://overlaps/detection_area.tscn" id="2_jy3iq"]
+[ext_resource type="Script" path="res://entities/enemies/damageable.gd" id="3_damage"]
+[ext_resource type="Script" path="res://overlaps/hurt_box.gd" id="4_hurtbox"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(10, 10)
 
 [node name="Base_Enemy" type="CharacterBody2D"]
 position = Vector2(0, -8)
@@ -23,3 +28,18 @@ position = Vector2(0, 1)
 target_position = Vector2(0, 5)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Damageable" type="Node" parent="."]
+script = ExtResource("3_damage")
+health = 10
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 128
+script = ExtResource("4_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_hurtbox")
+
+[connection signal="area_entered" from="HurtBox" to="HurtBox" method="_on_area_entered"]
