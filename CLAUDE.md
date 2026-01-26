@@ -154,11 +154,12 @@ Unit tests use the [GUT](https://gut.readthedocs.io/) (Godot Unit Testing) frame
 
 ### Architecture Improvements
 - [x] Break up `world.tscn` into smaller instanced scenes - migrated to use `world_background.tscn`, `world_environment.tscn`, `world_collectibles.tscn`, `world_powerups.tscn`, `world_enemies.tscn`; fixed signal connections in base scenes
+- [ ] Further world.tscn cleanup - see [WORLD_SCENE_TODO.md](WORLD_SCENE_TODO.md) for TileMap extraction and organization roadmap
 - [x] Unify player and enemy state machines - created `UnifiedState` and `UnifiedStateMachine` base classes in `entities/base/`
 - [x] Add player attack/combat states - added `ATTACK` (melee), `RANGED` (projectile), and `HIT` (damage reaction) states with projectile system
 
 ### Features to Expand
-- [ ] Expand dialogue system - currently only `powerup_stations.json` exists
+- [ ] Expand dialogue system - see [DIALOGUE_TODO.md](DIALOGUE_TODO.md) for phased roadmap
 - [x] Implement gold currency usage - shop system with consumables and upgrades
 - [ ] Add more enemy types - see [ENEMIES_TODO.md](ENEMIES_TODO.md) for phased roadmap
 
