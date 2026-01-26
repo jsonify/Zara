@@ -19,8 +19,3 @@ func _on_detection_area_player_detected(_body):
 
 func _on_detection_area_player_undetected(_body):
 	timer.start()
-
-
-
-func _on_hurt_box_area_entered(_area):
-	queue_free()

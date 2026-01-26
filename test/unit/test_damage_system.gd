@@ -234,3 +234,45 @@ func test_overkill_damage():
 	_damageable.health = 10
 	_damageable.hit(100, Vector2.LEFT)
 	assert_eq(_damageable.health, -90, "Overkill damage should result in negative health")
+
+
+# =============================================================================
+# HurtBox Self-Damage Prevention Tests
+# =============================================================================
+
+func test_hurtbox_get_character_root_finds_characterbody():
+	# Create a CharacterBody2D with nested HurtBox
+	var character = CharacterBody2D.new()
+	character.name = "TestCharacter"
+	add_child_autofree(character)
+
+	var hurtbox = HurtBox.new()
+	character.add_child(hurtbox)
+
+	var result = hurtbox._get_character_root(hurtbox)
+	assert_eq(result, character, "Should find the CharacterBody2D parent")
+
+
+func test_hurtbox_get_character_root_finds_nested_characterbody():
+	# Create a CharacterBody2D with deeply nested HurtBox
+	var character = CharacterBody2D.new()
+	character.name = "TestCharacter"
+	add_child_autofree(character)
+
+	var intermediate = Node2D.new()
+	character.add_child(intermediate)
+
+	var hurtbox = HurtBox.new()
+	intermediate.add_child(hurtbox)
+
+	var result = hurtbox._get_character_root(hurtbox)
+	assert_eq(result, character, "Should find the CharacterBody2D ancestor")
+
+
+func test_hurtbox_get_character_root_returns_null_without_characterbody():
+	# Create a HurtBox without any CharacterBody2D parent
+	var hurtbox = HurtBox.new()
+	add_child_autofree(hurtbox)
+
+	var result = hurtbox._get_character_root(hurtbox)
+	assert_null(result, "Should return null when no CharacterBody2D in tree")

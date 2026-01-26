@@ -34,8 +34,15 @@ func on_enter():
 	animation_player.play("attack")
 	attack_timer.start(attack_duration)
 
-	# Enable hitbox during attack
+	# Position hitbox based on player facing direction (use global position since parent is Node, not Node2D)
+	var player := character as Player
 	if hitbox:
+		var hitbox_offset_x = 10
+		var hitbox_offset_y = -5  # At player torso level
+		if player.direction == "left":
+			hitbox.global_position = player.global_position + Vector2(-hitbox_offset_x, hitbox_offset_y)
+		else:
+			hitbox.global_position = player.global_position + Vector2(hitbox_offset_x, hitbox_offset_y)
 		hitbox.monitoring = true
 
 func on_exit():

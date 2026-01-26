@@ -7,6 +7,7 @@ var _original_player_hp: int
 var _original_max_player_hp: int
 var _original_fuel_level: float
 var _original_max_fuel_level: float
+var _original_has_grenades: bool
 
 
 func before_each():
@@ -17,6 +18,7 @@ func before_each():
 	_original_max_player_hp = Game.max_player_hp
 	_original_fuel_level = Game.fuel_level
 	_original_max_fuel_level = Game.max_fuel_level
+	_original_has_grenades = Game.has_grenades
 
 	# Reset to clean state
 	Game.inventory.clear()
@@ -25,6 +27,7 @@ func before_each():
 	Game.max_player_hp = 25
 	Game.fuel_level = 30.0
 	Game.max_fuel_level = 30.0
+	Game.has_grenades = false
 
 
 func after_each():
@@ -35,6 +38,7 @@ func after_each():
 	Game.max_player_hp = _original_max_player_hp
 	Game.fuel_level = _original_fuel_level
 	Game.max_fuel_level = _original_max_fuel_level
+	Game.has_grenades = _original_has_grenades
 
 
 # =============================================================================
@@ -277,3 +281,20 @@ func test_add_upgrade_only_applies_once():
 	Game.add_upgrade("max_fuel")
 	Game.add_upgrade("max_fuel")
 	assert_eq(Game.max_fuel_level, initial_max + 10.0)
+
+
+# =============================================================================
+# grenade ability tests
+# =============================================================================
+
+func test_has_grenades_default_false():
+	assert_false(Game.has_grenades, "Grenades should be locked by default")
+
+
+func test_has_grenades_can_be_unlocked():
+	Game.has_grenades = true
+	assert_true(Game.has_grenades)
+
+
+func test_grenade_fuel_cost_default():
+	assert_eq(Game.grenade_fuel_cost, 8.0, "Grenade fuel cost should be 8")

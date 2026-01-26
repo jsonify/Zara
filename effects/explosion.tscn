@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://explosion_effect"]
+
+[ext_resource type="Script" path="res://effects/explosion.gd" id="1_explosion"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_explosion"]
+radius = 32.0
+
+[sub_resource type="Gradient" id="Gradient_explosion"]
+colors = PackedColorArray(1, 0.8, 0.2, 1, 1, 0.3, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_explosion"]
+gradient = SubResource("Gradient_explosion")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[node name="Explosion" type="Area2D"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_explosion")
+damage = 15
+radius = 32.0
+lifetime = 0.5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_explosion")
+
+[node name="ExplosionSprite" type="Sprite2D" parent="."]
+modulate = Color(1, 0.7, 0.3, 0.8)
+scale = Vector2(4, 4)
+texture = SubResource("GradientTexture2D_explosion")
+
+[node name="LifetimeTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="LifetimeTimer" to="." method="_on_lifetime_timer_timeout"]

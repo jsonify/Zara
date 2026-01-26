@@ -83,6 +83,7 @@ func _on_unlock_pressed():
 	Game.jetpack = true
 	Game.dash = true
 	Game.slide = true
+	Game.has_grenades = true
 
 func _on_close_pressed():
 	hide_panel()

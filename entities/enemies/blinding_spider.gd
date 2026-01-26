@@ -8,6 +8,8 @@ var player_detected := false
 var player_chase := false
 
 func _physics_process(_delta):
+	if is_dead:
+		return
 	patrol()
 	detect_turn_around()
 	move_and_slide()

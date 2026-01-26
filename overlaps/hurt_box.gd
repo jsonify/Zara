@@ -14,6 +14,11 @@ func _on_area_entered(area: Area2D):
 
 	# Check if the area is a HitBox
 	if area is HitBox:
+		# Ignore hitboxes from the same character (prevent self-damage)
+		var my_root = _get_character_root(self)
+		var hitbox_root = _get_character_root(area)
+		if my_root and hitbox_root and my_root == hitbox_root:
+			return
 		var hitbox = area as HitBox
 		var damage = hitbox.damage
 
@@ -34,3 +39,12 @@ func _spawn_hit_effect():
 
 func set_invincible(value: bool):
 	is_invincible = value
+
+func _get_character_root(node: Node) -> Node:
+	# Walk up the tree to find the CharacterBody2D root
+	var current = node
+	while current:
+		if current is CharacterBody2D:
+			return current
+		current = current.get_parent()
+	return null

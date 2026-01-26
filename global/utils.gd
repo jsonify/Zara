@@ -10,6 +10,7 @@ func saveGame():
 		"gold": Game.gold,
 		"fuel_level": Game.fuel_level,
 		"jetpack": Game.jetpack,
+		"has_grenades": Game.has_grenades,
 		"max_player_hp": Game.max_player_hp,
 		"max_fuel_level": Game.max_fuel_level,
 		"inventory": Game.inventory,
@@ -31,6 +32,7 @@ func loadGame():
 				Game.gold = current_line["gold"]
 				Game.fuel_level = current_line["fuel_level"]
 				Game.jetpack = current_line["jetpack"]
+				Game.has_grenades = current_line.get("has_grenades", false)
 				# Load new shop system data with defaults for older saves
 				Game.max_player_hp = current_line.get("max_player_hp", 25)
 				Game.max_fuel_level = current_line.get("max_fuel_level", 30.0)

@@ -1,14 +1,14 @@
-[gd_scene load_steps=21 format=3 uid="uid://dj7m1vxa1f547"]
+[gd_scene load_steps=20 format=3 uid="uid://dj7m1vxa1f547"]
 
 [ext_resource type="Texture2D" uid="uid://c5larvhgm1wdx" path="res://assets/enemies/flower/flower-move-sheet.png" id="1_4bapy"]
-[ext_resource type="Script" path="res://entities/enemies/flower/flowery.gd" id="1_i857g"]
+[ext_resource type="Script" uid="uid://crnp4cebe1v27" path="res://entities/enemies/flower/flowery.gd" id="1_i857g"]
 [ext_resource type="Texture2D" uid="uid://pds0g1urbt3u" path="res://assets/enemies/flower/flower-death-sheet.png" id="1_p776b"]
-[ext_resource type="Script" path="res://entities/enemies/damageable.gd" id="2_tk4xv"]
-[ext_resource type="Script" path="res://entities/CharacterStateMachine.gd" id="4_d87lk"]
-[ext_resource type="Script" path="res://entities/State.gd" id="5_kwwss"]
-[ext_resource type="Script" path="res://entities/StateDebugLabel.gd" id="6_bfxsf"]
-[ext_resource type="Script" path="res://entities/HitState.gd" id="6_ma1m2"]
-[ext_resource type="PackedScene" uid="uid://cenemy8hitbox5" path="res://overlaps/enemy_hitbox.tscn" id="9_ehitbox"]
+[ext_resource type="Script" uid="uid://bny2vsau3nyuq" path="res://entities/enemies/damageable.gd" id="2_tk4xv"]
+[ext_resource type="Script" uid="uid://eereymsinpbc" path="res://entities/CharacterStateMachine.gd" id="4_d87lk"]
+[ext_resource type="Script" uid="uid://b7ar8icu4lpv7" path="res://entities/State.gd" id="5_kwwss"]
+[ext_resource type="Script" uid="uid://dhqjae2m6v3rb" path="res://entities/StateDebugLabel.gd" id="6_bfxsf"]
+[ext_resource type="Script" uid="uid://q72icsi3rqco" path="res://entities/HitState.gd" id="6_ma1m2"]
+[ext_resource type="PackedScene" uid="uid://c21yd7wynnxce" path="res://overlaps/enemy_hitbox.tscn" id="9_ehitbox"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nprck"]
 size = Vector2(14, 11)
@@ -111,9 +111,9 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rrylx"]
 _data = {
-"RESET": SubResource("Animation_1q20y"),
-"dead": SubResource("Animation_kcoxy"),
-"move": SubResource("Animation_1daor")
+&"RESET": SubResource("Animation_1q20y"),
+&"dead": SubResource("Animation_kcoxy"),
+&"move": SubResource("Animation_1daor")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1iurw"]
@@ -134,10 +134,9 @@ states/move/node = SubResource("AnimationNodeAnimation_j38y2")
 states/move/position = Vector2(412, 101.625)
 transitions = ["Start", "move", SubResource("AnimationNodeStateMachineTransition_n1aa8"), "move", "dead", SubResource("AnimationNodeStateMachineTransition_qxhy2")]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_2vgx7"]
-
 [node name="Flowery" type="CharacterBody2D" node_paths=PackedStringArray("hit_state")]
-collision_layer = 256
+collision_layer = 4
+collision_mask = 1
 script = ExtResource("1_i857g")
 movement_speed = 15.0
 hit_state = NodePath("CharacterStateMachine/Hit")
@@ -152,10 +151,10 @@ texture = ExtResource("1_4bapy")
 hframes = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "move"
 libraries = {
-"": SubResource("AnimationLibrary_rrylx")
+&"": SubResource("AnimationLibrary_rrylx")
 }
+autoplay = "move"
 
 [node name="EnemyHitBox" parent="." instance=ExtResource("9_ehitbox")]
 position = Vector2(0, -5)
@@ -166,8 +165,6 @@ script = ExtResource("2_tk4xv")
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_ephr8")
 anim_player = NodePath("../AnimationPlayer")
-active = true
-parameters/playback = SubResource("AnimationNodeStateMachinePlayback_2vgx7")
 
 [node name="CharacterStateMachine" type="Node" parent="." node_paths=PackedStringArray("character", "animation_tree", "current_state")]
 script = ExtResource("4_d87lk")
@@ -195,6 +192,7 @@ wait_time = 0.25
 one_shot = true
 
 [node name="StateDebugLabel" type="Label" parent="." node_paths=PackedStringArray("state_machine")]
+visible = false
 offset_left = -44.0
 offset_top = -34.0
 offset_right = 55.0

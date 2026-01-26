@@ -171,9 +171,11 @@ func has_fuel():
 
 func change_direction(dir):
 	if dir == -1:
+		direction = "left"
 		$Sprite2D.flip_h = true
 		thrust_fire.position = Vector2(2, -2)
 	elif dir == 1:
+		direction = "right"
 		$Sprite2D.flip_h = false
 		thrust_fire.position = Vector2(-2, -2)
 
