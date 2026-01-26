@@ -24,16 +24,13 @@ func state_process(_delta) -> UnifiedState:
 	return null
 
 func on_enter():
-	print("ATTACK: on_enter called, can_attack=", can_attack)
 	if not can_attack:
 		# Can't attack yet, return to idle
-		print("ATTACK: Can't attack, returning to IDLE")
 		next_state = get_parent().get_node("IDLE") as UnifiedState
 		return
 
 	attacking = true
 	can_attack = false
-	print("ATTACK: Starting attack animation")
 	animation_player.play("attack")
 	attack_timer.start(attack_duration)
 
@@ -47,7 +44,6 @@ func on_enter():
 		else:
 			hitbox.global_position = player.global_position + Vector2(hitbox_offset_x, hitbox_offset_y)
 		hitbox.monitoring = true
-		print("ATTACK: Player at ", player.global_position, ", Hitbox global: ", hitbox.global_position)
 
 func on_exit():
 	attacking = false

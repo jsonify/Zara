@@ -12,6 +12,9 @@ extends UnifiedState
 @export var max_angle := -50.0  # Full charge angle (degrees)
 @export var trajectory_points := 15  # Number of dots in preview
 @export var trajectory_time_step := 0.05  # Time between each point
+@export var trajectory_gravity := 300.0  # Should match projectile gravity_force
+
+const ENVIRONMENT_LAYER := 1  # Collision layer for environment
 
 @onready var cooldown_timer := $CooldownTimer
 @onready var spawn_point := $SpawnPoint
@@ -159,7 +162,6 @@ func _update_trajectory_preview():
 		vel.x = -abs(vel.x)
 
 	# Simulate trajectory until hitting ground/wall
-	var gravity = 300.0  # Match projectile gravity_force
 	var points: PackedVector2Array = []
 	var pos = start_pos
 	var max_iterations = 100  # Safety limit
@@ -172,12 +174,12 @@ func _update_trajectory_preview():
 
 	for i in range(max_iterations):
 		var prev_pos = pos
-		vel.y += gravity * trajectory_time_step
+		vel.y += trajectory_gravity * trajectory_time_step
 		pos += vel * trajectory_time_step
 
 		# Raycast from previous position to current position to check for collision
 		var query = PhysicsRayQueryParameters2D.create(prev_pos, pos)
-		query.collision_mask = 1  # Environment layer only
+		query.collision_mask = ENVIRONMENT_LAYER
 		query.collide_with_areas = false
 		query.collide_with_bodies = true
 

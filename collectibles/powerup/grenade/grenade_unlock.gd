@@ -8,10 +8,10 @@ func _on_body_entered(body):
 
 		# Pickup animation - float up and fade
 		var tween = get_tree().create_tween()
-		var tween_fade = get_tree().create_tween()
+		tween.set_parallel(true)
 		tween.tween_property(self, "position", position - Vector2(0, 30), 0.3)
-		tween_fade.tween_property(self, "modulate:a", 0, 0.3)
-		tween.tween_callback(queue_free)
+		tween.tween_property(self, "modulate:a", 0, 0.3)
+		tween.chain().tween_callback(queue_free)
 
 		Utils.saveGame()
 		Events.emit_signal("grenades_collected")

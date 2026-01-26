@@ -57,10 +57,8 @@ func _deal_area_damage():
 
 	for result in results:
 		var body = result.collider
-		print("  - Found body: ", body.name, " layer=", body.collision_layer)
 		# Look for Damageable component
 		for child in body.get_children():
-			print("    - Child: ", child.name, " is Damageable: ", child is Damageable)
 			if child is Damageable:
 				# Calculate knockback direction from explosion center
 				var knockback_dir = (body.global_position - global_position).normalized()

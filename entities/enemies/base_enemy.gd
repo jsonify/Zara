@@ -9,6 +9,7 @@ class_name BaseEnemy
 
 @export var speed := 10
 @export var speed_multiplier := 1
+@export var knockback_force := 100.0
 
 var can_patrol := false
 var direction = Vector2.RIGHT
@@ -48,7 +49,7 @@ func detect_turn_around():
 
 func _on_damageable_hit(_node: Node, _damage_taken: int, knockback_direction: Vector2):
 	# Apply knockback
-	velocity = knockback_direction * 100
+	velocity = knockback_direction * knockback_force
 
 	# Flash effect
 	_flash_damage()

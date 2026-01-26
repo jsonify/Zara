@@ -22,11 +22,9 @@ func state_process(delta) -> UnifiedState:
 		return get_parent().get_node("THRUST") as UnifiedState
 
 	if player.attack_input:
-		print("IDLE: Transitioning to ATTACK")
 		return get_parent().get_node("ATTACK") as UnifiedState
 
 	if player.ranged_input:
-		print("IDLE: Transitioning to RANGED")
 		return get_parent().get_node("RANGED") as UnifiedState
 
 	return null
