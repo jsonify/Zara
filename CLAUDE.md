@@ -160,7 +160,7 @@ Unit tests use the [GUT](https://gut.readthedocs.io/) (Godot Unit Testing) frame
 ### Features to Expand
 - [ ] Expand dialogue system - currently only `powerup_stations.json` exists
 - [x] Implement gold currency usage - shop system with consumables and upgrades
-- [ ] Add more enemy types using the `CharacterStateMachine` pattern
+- [ ] Add more enemy types - see [ENEMIES_TODO.md](ENEMIES_TODO.md) for phased roadmap
 
 ### Testing
 - [ ] Add physics-based integration tests for damage system (HitBox/HurtBox collision detection with scene instantiation)
