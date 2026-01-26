@@ -1,13 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://bnre0tptu8h1y"]
+[gd_scene load_steps=13 format=3 uid="uid://bnre0tptu8h1y"]
 
 [ext_resource type="Script" uid="uid://e3onkjybi6rk" path="res://levels/world.gd" id="1_gvcph"]
 [ext_resource type="TileSet" uid="uid://bb0ehveqi55rv" path="res://levels/world.tres" id="2_ctgwt"]
 [ext_resource type="PackedScene" uid="uid://cdtierpk5plno" path="res://ui/ui.tscn" id="5_ede1p"]
-[ext_resource type="PackedScene" uid="uid://dj7m1vxa1f547" path="res://entities/enemies/flower/flowery.tscn" id="6_54i5j"]
-[ext_resource type="Texture2D" uid="uid://pjvytq36d4mj" path="res://assets/world/circle-fade.png" id="7_jqmhk"]
-[ext_resource type="PackedScene" uid="uid://dtqsh3kfl18gg" path="res://collectibles/gold/gold_coin.tscn" id="13_mla2a"]
 [ext_resource type="PackedScene" uid="uid://cd17ai7s7md7x" path="res://entities/player/player.tscn" id="14_f7ltt"]
-[ext_resource type="PackedScene" uid="uid://bqkfm2nj8g6vx" path="res://collectibles/shop/shop_station.tscn" id="14_oxfhy"]
 [ext_resource type="PackedScene" uid="uid://c2agmia81gv6x" path="res://ui/health_changed_mananger.tscn" id="17_bb8s7"]
 [ext_resource type="PackedScene" uid="uid://cnb5q2r8h4wvk" path="res://environment/world_background.tscn" id="18_wbg"]
 [ext_resource type="PackedScene" uid="uid://d2g5n8m3x7rpq" path="res://environment/world_environment.tscn" id="19_wenv"]
@@ -15,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cp4nx7m2q5rpk" path="res://collectibles/powerup/world_powerups.tscn" id="21_wpow"]
 [ext_resource type="PackedScene" uid="uid://dm8qr5n2x4vpk" path="res://entities/enemies/world_enemies.tscn" id="22_wene"]
 [ext_resource type="PackedScene" uid="uid://bt0umbtnv0iea" path="res://ui/pause_menu.tscn" id="23_pause"]
+[ext_resource type="PackedScene" uid="uid://cm4wx7n2q5spk" path="res://collectibles/shop/world_shops.tscn" id="24_wshp"]
 
 [node name="World" type="Node2D"]
 position = Vector2(31, -9)
@@ -31,25 +28,11 @@ layer_1/tile_data = PackedInt32Array(2424839, 131073, 10, 2424840, 131073, 9, 24
 
 [node name="UI" parent="." instance=ExtResource("5_ede1p")]
 
-[node name="Player" type="Node2D" parent="."]
+[node name="player" parent="." instance=ExtResource("14_f7ltt")]
 z_index = 10
-
-[node name="player" parent="Player" instance=ExtResource("14_f7ltt")]
 position = Vector2(270, 534)
 JUMP_VELOCITY = -300.0
 metadata/_edit_group_ = true
-
-[node name="PointLight2D" type="PointLight2D" parent="Player/player"]
-z_index = 5
-position = Vector2(-1, -26)
-scale = Vector2(1.41975, 1.41975)
-energy = 3.44
-range_layer_max = 1
-shadow_enabled = true
-shadow_filter_smooth = 10.7
-texture = ExtResource("7_jqmhk")
-texture_scale = 0.2
-height = 50.0
 
 [node name="HealthChangedMananger" parent="." instance=ExtResource("17_bb8s7")]
 
@@ -62,15 +45,9 @@ visible = true
 
 [node name="WorldPowerups" parent="." instance=ExtResource("21_wpow")]
 
+
+[node name="WorldShops" parent="." instance=ExtResource("24_wshp")]
 [node name="WorldEnemies" parent="." instance=ExtResource("22_wene")]
 
 [node name="PauseMenu" parent="." instance=ExtResource("23_pause")]
 
-[node name="GoldCoin" parent="." instance=ExtResource("13_mla2a")]
-position = Vector2(131, 229)
-
-[node name="ShopStation" parent="." instance=ExtResource("14_oxfhy")]
-position = Vector2(250, 617)
-
-[node name="Flowery" parent="." instance=ExtResource("6_54i5j")]
-position = Vector2(185, 612)

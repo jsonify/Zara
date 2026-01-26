@@ -5,8 +5,8 @@ This document tracks improvements to keep `levels/world.tscn` maintainable as th
 ## Current State Analysis
 
 **File:** `levels/world.tscn`
-- **Lines:** 76 (scene structure)
-- **Size:** ~73KB (due to TileMap tile_data)
+- **Lines:** 53 (scene structure) - reduced from 76 after Phase 1
+- **Size:** ~73KB (due to TileMap tile_data - will be addressed in Phase 2)
 
 **Root Cause:** The TileMap stores all tile data as a `PackedInt32Array` directly in the scene file. As the level grows, this data grows exponentially.
 
@@ -15,57 +15,53 @@ This document tracks improvements to keep `levels/world.tscn` maintainable as th
 ```
 World (Node2D)
 ├── TileMap ⚠️ [EMBEDDED - 70KB+ of tile data]
-├── UI (instance)
-├── Player (wrapper Node2D)
-│   └── player (instance)
-│       └── PointLight2D ⚠️ [EMBEDDED]
-├── HealthChangedMananger (instance)
+├── UI (instance) ✓
+├── player (instance) ✓ [z_index=10, PointLight2D now internal]
+├── HealthChangedMananger (instance) ✓
 ├── WorldBackground (instance) ✓
 ├── WorldEnvironment (instance) ✓
-├── WorldCollectibles (instance) ✓
+├── WorldCollectibles (instance) ✓ [includes GoldCoin]
 ├── WorldPowerups (instance) ✓
-├── WorldEnemies (instance) ✓
-├── PauseMenu (instance)
-├── GoldCoin ⚠️ [LOOSE - should be in WorldCollectibles]
-├── ShopStation ⚠️ [LOOSE - should be in WorldShops]
-└── Flowery ⚠️ [DUPLICATE - already in WorldEnemies]
+├── WorldShops (instance) ✓ [NEW - includes ShopStation]
+├── WorldEnemies (instance) ✓ [includes all Flowery instances]
+└── PauseMenu (instance) ✓
 ```
 
 ---
 
-## Phase 1: Quick Cleanup
+## Phase 1: Quick Cleanup ✅ COMPLETED
 
 Fix immediate organizational issues without restructuring.
 
 ### Remove Duplicate Flowery
-- [ ] Implementation
+- [x] Implementation
 
 **Issue:** Flowery enemy exists both in `world.tscn` and `WorldEnemies`.
 
-**Fix:** Remove the Flowery instance from `world.tscn` (keep it in `world_enemies.tscn`).
+**Fix:** Moved the loose Flowery instance from `world.tscn` to `world_enemies.tscn` as `Flowery2`.
 
 ### Move Loose Collectibles
-- [ ] Implementation
+- [x] Implementation
 
 **Issue:** GoldCoin and ShopStation are directly in world.tscn.
 
 **Fix:**
-- Move GoldCoin to `world_collectibles.tscn`
-- Create `world_shops.tscn` for shop stations, or add to `world_collectibles.tscn`
+- Moved GoldCoin to `world_collectibles.tscn`
+- Created `world_shops.tscn` for shop stations at `collectibles/shop/world_shops.tscn`
 
 ### Move PointLight2D to Player Scene
-- [ ] Implementation
+- [x] Implementation
 
 **Issue:** PointLight2D is embedded as a child of the player instance in world.tscn.
 
-**Fix:** Add the PointLight2D directly to `entities/player/player.tscn` so it's part of the player prefab.
+**Fix:** Added the PointLight2D directly to `entities/player/player.tscn` so it's part of the player prefab.
 
 ### Remove Unnecessary Player Wrapper
-- [ ] Implementation
+- [x] Implementation
 
 **Issue:** "Player" Node2D wrapper only contains the player instance with z_index.
 
-**Fix:** Set z_index on the player instance directly and remove the wrapper node.
+**Fix:** Set z_index=10 on the player instance directly and removed the wrapper node.
 
 ---
 
@@ -178,15 +174,15 @@ Establish conventions to prevent future bloat.
 |-------|---------|----------|
 | `world_background.tscn` | Parallax backgrounds | `environment/` |
 | `world_environment.tscn` | Static environment objects | `environment/` |
-| `world_collectibles.tscn` | Fuel, coins, boxes | `collectibles/` |
+| `world_collectibles.tscn` | Fuel, coins, boxes, gold | `collectibles/` |
 | `world_powerups.tscn` | Powerup stations | `collectibles/powerup/` |
 | `world_enemies.tscn` | Enemy placements | `entities/enemies/` |
+| `world_shops.tscn` | Shop stations | `collectibles/shop/` |
 
 **Proposed additions:**
 | Scene | Purpose | Location |
 |-------|---------|----------|
 | `world_tilemap.tscn` | Level geometry | `levels/` |
-| `world_shops.tscn` | Shop stations | `collectibles/shop/` |
 | `world_hazards.tscn` | Spikes, pits, etc. | `environment/` |
 | `world_triggers.tscn` | Area triggers, checkpoints | `levels/` |
 
@@ -194,12 +190,12 @@ Establish conventions to prevent future bloat.
 
 ## Implementation Checklist
 
-### Phase 1 Tasks (Quick Cleanup)
-- [ ] Remove duplicate Flowery from world.tscn
-- [ ] Move GoldCoin to world_collectibles.tscn
-- [ ] Create world_shops.tscn and move ShopStation
-- [ ] Move PointLight2D into player.tscn
-- [ ] Remove Player wrapper node, set z_index on player directly
+### Phase 1 Tasks (Quick Cleanup) ✅
+- [x] Remove duplicate Flowery from world.tscn
+- [x] Move GoldCoin to world_collectibles.tscn
+- [x] Create world_shops.tscn and move ShopStation
+- [x] Move PointLight2D into player.tscn
+- [x] Remove Player wrapper node, set z_index on player directly
 
 ### Phase 2 Tasks (TileMap Extraction)
 - [ ] Create levels/world_tilemap.tscn

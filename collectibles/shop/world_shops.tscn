@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cm4wx7n2q5spk"]
+
+[ext_resource type="PackedScene" uid="uid://bqkfm2nj8g6vx" path="res://collectibles/shop/shop_station.tscn" id="1_shop"]
+
+[node name="WorldShops" type="Node2D"]
+
+[node name="ShopStation" parent="." instance=ExtResource("1_shop")]
+position = Vector2(250, 617)
