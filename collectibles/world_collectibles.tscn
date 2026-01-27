@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bm7xq3n5h2rpk"]
+[gd_scene load_steps=4 format=3 uid="uid://bm7xq3n5h2rpk"]
 
 [ext_resource type="PackedScene" uid="uid://bjf4qbyaikjrv" path="res://collectibles/boxes/pink_box.tscn" id="1_pinkbox"]
 [ext_resource type="PackedScene" uid="uid://bh0u5i4ogipbf" path="res://collectibles/fuel/fuel-5sec.tscn" id="2_fuel5"]
 [ext_resource type="PackedScene" uid="uid://beuhgtgv32n6b" path="res://collectibles/fuel/fuel-1sec.tscn" id="3_fuel1"]
-[ext_resource type="PackedScene" uid="uid://dtqsh3kfl18gg" path="res://collectibles/gold/gold_coin.tscn" id="4_gold"]
 
 [node name="WorldCollectibles" type="Node2D"]
 
@@ -20,6 +19,3 @@ position = Vector2(1332, 617)
 
 [node name="Fuel-1sec" parent="." instance=ExtResource("3_fuel1")]
 position = Vector2(897, 409)
-
-[node name="GoldCoin" parent="." instance=ExtResource("4_gold")]
-position = Vector2(131, 229)

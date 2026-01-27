@@ -5,7 +5,7 @@ This document tracks improvements to keep `levels/world.tscn` maintainable as th
 ## Current State Analysis
 
 **File:** `levels/world.tscn`
-- **Lines:** 53 (scene structure) - reduced from 76 after Phase 1
+- **Lines:** ~60 (scene structure)
 - **Size:** ~73KB (due to TileMap tile_data - will be addressed in Phase 2)
 
 **Root Cause:** The TileMap stores all tile data as a `PackedInt32Array` directly in the scene file. As the level grows, this data grows exponentially.
@@ -20,12 +20,39 @@ World (Node2D)
 ├── HealthChangedMananger (instance) ✓
 ├── WorldBackground (instance) ✓
 ├── WorldEnvironment (instance) ✓
-├── WorldCollectibles (instance) ✓ [includes GoldCoin]
+├── WorldCollectibles (instance) ✓ [fuel, boxes - context-independent]
 ├── WorldPowerups (instance) ✓
-├── WorldShops (instance) ✓ [NEW - includes ShopStation]
-├── WorldEnemies (instance) ✓ [includes all Flowery instances]
-└── PauseMenu (instance) ✓
+├── WorldEnemies (instance) ✓ [template enemy]
+├── PauseMenu (instance) ✓
+├── Flowery (instance) ← Level-specific placement
+├── GoldCoin (instance) ← Level-specific placement
+└── ShopStation (instance) ← Level-specific placement
 ```
+
+---
+
+## Organization Philosophy
+
+### What Goes in Sub-Scenes
+
+Sub-scenes are best for content that is **context-independent** - things that don't need to see the TileMap/platforms to be edited:
+
+- **Backgrounds** (`world_background.tscn`) - Parallax layers, sky
+- **Static environment** (`world_environment.tscn`) - Decorations, trees, props
+- **Reusable prefabs** (`player.tscn`, `flowery.tscn`) - Complex entities
+- **UI elements** - HUD, menus
+- **TileMap** (Phase 2) - Large data that benefits from isolation
+
+### What Stays in world.tscn
+
+Level-specific placements that **require visual context** to position correctly:
+
+- **Enemy spawn points** - Need to see platforms to place strategically
+- **Collectible locations** - Need to see level geometry
+- **Shop/NPC locations** - Need to see accessible areas
+- **Triggers and checkpoints** - Need to align with level layout
+
+**Key insight:** If you need to see the TileMap while placing something, it belongs in `world.tscn`.
 
 ---
 
@@ -33,35 +60,26 @@ World (Node2D)
 
 Fix immediate organizational issues without restructuring.
 
-### Remove Duplicate Flowery
-- [x] Implementation
-
-**Issue:** Flowery enemy exists both in `world.tscn` and `WorldEnemies`.
-
-**Fix:** Moved the loose Flowery instance from `world.tscn` to `world_enemies.tscn` as `Flowery2`.
-
-### Move Loose Collectibles
-- [x] Implementation
-
-**Issue:** GoldCoin and ShopStation are directly in world.tscn.
-
-**Fix:**
-- Moved GoldCoin to `world_collectibles.tscn`
-- Created `world_shops.tscn` for shop stations at `collectibles/shop/world_shops.tscn`
-
 ### Move PointLight2D to Player Scene
 - [x] Implementation
 
-**Issue:** PointLight2D is embedded as a child of the player instance in world.tscn.
+**Issue:** PointLight2D was embedded as a child of the player instance in world.tscn.
 
 **Fix:** Added the PointLight2D directly to `entities/player/player.tscn` so it's part of the player prefab.
 
 ### Remove Unnecessary Player Wrapper
 - [x] Implementation
 
-**Issue:** "Player" Node2D wrapper only contains the player instance with z_index.
+**Issue:** "Player" Node2D wrapper only contained the player instance with z_index.
 
 **Fix:** Set z_index=10 on the player instance directly and removed the wrapper node.
+
+### Consolidate Duplicate Enemy
+- [x] Implementation
+
+**Issue:** Flowery enemy existed in both `world.tscn` and `WorldEnemies`.
+
+**Fix:** Kept only one Flowery in `WorldEnemies` as a template. Level-specific enemy placements stay in `world.tscn` for visual editing context.
 
 ---
 
@@ -153,19 +171,18 @@ levels/
 Establish conventions to prevent future bloat.
 
 ### World Scene Guidelines
-- [ ] Document conventions
-- [ ] Team alignment
+- [x] Document conventions
 
 **Rules for world.tscn:**
-1. **No direct content** - Only instance sub-scenes
-2. **No embedded nodes** - All reusable content in separate .tscn files
-3. **Organized hierarchy** - Group by category (environment, enemies, collectibles, UI)
+1. **Level-specific placements** - Enemies, collectibles, NPCs that need visual context
+2. **Instance sub-scenes** - For context-independent content (backgrounds, UI, TileMap)
+3. **Keep prefabs separate** - Complex entities (player, enemy types) as their own scenes
 4. **Named consistently** - Use `World*` prefix for world sub-scenes
 
-**Checklist before adding to world.tscn:**
-- [ ] Is this content already covered by a sub-scene?
-- [ ] Should this be a new sub-scene instead?
-- [ ] Is this a one-off placement or reusable content?
+**Decision tree for new content:**
+- Does it need to see the TileMap to position? → Add to `world.tscn`
+- Is it context-independent? → Add to appropriate sub-scene
+- Is it a complex reusable entity? → Create a prefab scene
 
 ### Sub-Scene Catalog
 
@@ -174,28 +191,24 @@ Establish conventions to prevent future bloat.
 |-------|---------|----------|
 | `world_background.tscn` | Parallax backgrounds | `environment/` |
 | `world_environment.tscn` | Static environment objects | `environment/` |
-| `world_collectibles.tscn` | Fuel, coins, boxes, gold | `collectibles/` |
+| `world_collectibles.tscn` | Fuel, boxes (templates) | `collectibles/` |
 | `world_powerups.tscn` | Powerup stations | `collectibles/powerup/` |
-| `world_enemies.tscn` | Enemy placements | `entities/enemies/` |
-| `world_shops.tscn` | Shop stations | `collectibles/shop/` |
+| `world_enemies.tscn` | Enemy templates | `entities/enemies/` |
 
 **Proposed additions:**
 | Scene | Purpose | Location |
 |-------|---------|----------|
 | `world_tilemap.tscn` | Level geometry | `levels/` |
 | `world_hazards.tscn` | Spikes, pits, etc. | `environment/` |
-| `world_triggers.tscn` | Area triggers, checkpoints | `levels/` |
 
 ---
 
 ## Implementation Checklist
 
 ### Phase 1 Tasks (Quick Cleanup) ✅
-- [x] Remove duplicate Flowery from world.tscn
-- [x] Move GoldCoin to world_collectibles.tscn
-- [x] Create world_shops.tscn and move ShopStation
 - [x] Move PointLight2D into player.tscn
 - [x] Remove Player wrapper node, set z_index on player directly
+- [x] Consolidate duplicate enemies (keep level-specific in world.tscn)
 
 ### Phase 2 Tasks (TileMap Extraction)
 - [ ] Create levels/world_tilemap.tscn
@@ -217,30 +230,30 @@ Establish conventions to prevent future bloat.
 
 ## Target Structure
 
-After all phases, `world.tscn` should look like:
+After Phase 2, `world.tscn` should look like:
 
 ```
 World (Node2D)
-├── WorldTilemap (instance) ← NEW
+├── WorldTilemap (instance) ← Extracted (Phase 2)
 ├── WorldBackground (instance)
 ├── WorldEnvironment (instance)
-├── WorldCollectibles (instance)
-├── WorldShops (instance) ← NEW
+├── WorldCollectibles (instance) [templates]
 ├── WorldPowerups (instance)
-├── WorldEnemies (instance)
-├── WorldHazards (instance) ← FUTURE
-├── WorldTriggers (instance) ← FUTURE
-├── player (instance) ← SIMPLIFIED
+├── WorldEnemies (instance) [templates]
+├── player (instance)
 ├── UI (instance)
 ├── HealthChangedMananger (instance)
-└── PauseMenu (instance)
+├── PauseMenu (instance)
+├── [Level-specific enemy placements]
+├── [Level-specific collectibles]
+└── [Level-specific shops/NPCs]
 ```
 
 **Benefits:**
-- `world.tscn` becomes ~20 lines
-- Each sub-scene independently editable
-- Clear separation of concerns
-- Scalable for future content
+- TileMap data isolated (smaller diffs, cleaner world.tscn)
+- Level-specific content editable with full visual context
+- Prefabs remain reusable
+- Clear separation between templates and placements
 
 ---
 
@@ -261,7 +274,7 @@ World (Node2D)
 
 ### Editor Workflow
 
-After extraction:
+After TileMap extraction:
 - Double-click `world_tilemap.tscn` to edit tiles
-- `world.tscn` is for placement and orchestration only
+- Edit enemy/collectible placements in `world.tscn` with full level context
 - Use "Editable Children" sparingly (creates overrides in parent scene)

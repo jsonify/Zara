@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bnre0tptu8h1y"]
+[gd_scene load_steps=15 format=3 uid="uid://bnre0tptu8h1y"]
 
 [ext_resource type="Script" uid="uid://e3onkjybi6rk" path="res://levels/world.gd" id="1_gvcph"]
 [ext_resource type="TileSet" uid="uid://bb0ehveqi55rv" path="res://levels/world.tres" id="2_ctgwt"]
@@ -11,7 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://cp4nx7m2q5rpk" path="res://collectibles/powerup/world_powerups.tscn" id="21_wpow"]
 [ext_resource type="PackedScene" uid="uid://dm8qr5n2x4vpk" path="res://entities/enemies/world_enemies.tscn" id="22_wene"]
 [ext_resource type="PackedScene" uid="uid://bt0umbtnv0iea" path="res://ui/pause_menu.tscn" id="23_pause"]
-[ext_resource type="PackedScene" uid="uid://cm4wx7n2q5spk" path="res://collectibles/shop/world_shops.tscn" id="24_wshp"]
+[ext_resource type="PackedScene" uid="uid://dj7m1vxa1f547" path="res://entities/enemies/flower/flowery.tscn" id="24_flow"]
+[ext_resource type="PackedScene" uid="uid://dtqsh3kfl18gg" path="res://collectibles/gold/gold_coin.tscn" id="25_gold"]
+[ext_resource type="PackedScene" uid="uid://bqkfm2nj8g6vx" path="res://collectibles/shop/shop_station.tscn" id="26_shop"]
 
 [node name="World" type="Node2D"]
 position = Vector2(31, -9)
@@ -46,8 +48,16 @@ visible = true
 [node name="WorldPowerups" parent="." instance=ExtResource("21_wpow")]
 
 
-[node name="WorldShops" parent="." instance=ExtResource("24_wshp")]
 [node name="WorldEnemies" parent="." instance=ExtResource("22_wene")]
 
 [node name="PauseMenu" parent="." instance=ExtResource("23_pause")]
 
+
+[node name="Flowery" parent="." instance=ExtResource("24_flow")]
+position = Vector2(185, 612)
+
+[node name="GoldCoin" parent="." instance=ExtResource("25_gold")]
+position = Vector2(131, 229)
+
+[node name="ShopStation" parent="." instance=ExtResource("26_shop")]
+position = Vector2(250, 617)
