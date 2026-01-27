@@ -106,10 +106,12 @@ Extract the TileMap to reduce world.tscn file size.
 - [ ] Implementation (if needed)
 
 **Current layers in TileMap:**
-- Layer 0: Background
-- (Check for additional layers)
+- Layer 0: Background (contains tile data)
+- Layer 1: FMain (contains tile data)
 
-**Options:**
+**Decision:** Keeping both layers in a single TileMap for now. Multi-layer extraction can be revisited if level complexity increases.
+
+**Options (if needed later):**
 - Keep single TileMap with multiple layers (current approach)
 - Split into separate TileMaps per layer (Background, Platforms, Foreground)
 - Each layer could be its own scene for independent editing
