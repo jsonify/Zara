@@ -1,6 +1,7 @@
-[gd_scene load_steps=30 format=3 uid="uid://cd17ai7s7md7x"]
+[gd_scene load_steps=31 format=3 uid="uid://cd17ai7s7md7x"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_kq41b"]
+[ext_resource type="Texture2D" uid="uid://pjvytq36d4mj" path="res://assets/world/circle-fade.png" id="2_light"]
 [ext_resource type="Script" path="res://entities/base/UnifiedStateMachine.gd" id="4_2d2iv"]
 [ext_resource type="Texture2D" uid="uid://bv23yag8dv1hk" path="res://assets/player/player_base.png" id="5_a7lp5"]
 [ext_resource type="PackedScene" uid="uid://bpcroqf2bq2sc" path="res://entities/player/IDLE.tscn" id="5_b5b8c"]
@@ -226,6 +227,18 @@ libraries = {
 }
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+z_index = 5
+position = Vector2(-1, -26)
+scale = Vector2(1.41975, 1.41975)
+energy = 3.44
+range_layer_max = 1
+shadow_enabled = true
+shadow_filter_smooth = 10.7
+texture = ExtResource("2_light")
+texture_scale = 0.2
+height = 50.0
 
 [node name="Label" type="Label" parent="."]
 visible = false
