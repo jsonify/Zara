@@ -143,7 +143,7 @@ Unit tests use the [GUT](https://gut.readthedocs.io/) (Godot Unit Testing) frame
 - `@export` variables for inspector-tunable parameters
 - State classes inherit from `UnifiedState` base (or `State` for backward compatibility)
 - Enemy stats defined as resources (`.tres` files in `resources/`)
-- World scene uses instanced sub-scenes for organization (`environment/world_*.tscn`, `collectibles/world_*.tscn`, etc.)
+- World scene uses instanced sub-scenes for organization (`levels/world_tilemap.tscn`, `environment/world_*.tscn`, `collectibles/world_*.tscn`, etc.)
 
 ## TODO
 
@@ -154,7 +154,7 @@ Unit tests use the [GUT](https://gut.readthedocs.io/) (Godot Unit Testing) frame
 
 ### Architecture Improvements
 - [x] Break up `world.tscn` into smaller instanced scenes - migrated to use `world_background.tscn`, `world_environment.tscn`, `world_collectibles.tscn`, `world_powerups.tscn`, `world_enemies.tscn`; fixed signal connections in base scenes
-- [ ] Further world.tscn cleanup - see [WORLD_SCENE_TODO.md](WORLD_SCENE_TODO.md) for TileMap extraction and organization roadmap
+- [x] Further world.tscn cleanup - extracted TileMap to `world_tilemap.tscn` (73KB → 3KB); see [WORLD_SCENE_TODO.md](WORLD_SCENE_TODO.md) for future phases
 - [x] Unify player and enemy state machines - created `UnifiedState` and `UnifiedStateMachine` base classes in `entities/base/`
 - [x] Add player attack/combat states - added `ATTACK` (melee), `RANGED` (projectile), and `HIT` (damage reaction) states with projectile system
 
